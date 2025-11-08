@@ -6,6 +6,17 @@
   <title>購物車</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      padding: 1rem;
+    }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     .cart-container {
       padding: 1rem;
       display: flex;
@@ -14,6 +25,7 @@
     }
 
     .cart-item {
+      position: relative; /* 讓叉叉能定位在右上角 */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -57,6 +69,9 @@
       cursor: pointer;
       margin-top: 1rem;
     }
+    button.checkout-btn:hover {
+      background-color: #1e874b;
+    }
 
     button.keepbuy-btn:hover {
       background-color: #871e4a;
@@ -71,33 +86,97 @@
       cursor: pointer;
       margin-top: 1rem;
     }
+    
+    button.keepbuy-btn:hover {
+      background-color: #871e4a;
+    }
+
+    /* 右上角叉叉樣式 */
+    .delete-btn {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      color: #e74c3c;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      color: #c0392b;
+    }
+
+    .clear-btn {
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .clear-btn:hover {
+      background-color: #d35400;
+    }
 
     button.checkout-btn:hover {
       background-color: #1e874b;
     }
+
+    .message {
+      margin-top: 1rem;
+      padding: 0.6rem;
+      border-radius: 6px;
+      background-color: #f1c40f;
+      color: #333;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h2>🛒 我的購物車</h2>
+  <div class="cart-header">
+    <h2>🛒 我的購物車</h2>
+    <button class="clear-btn" onclick="clearCart()">清空購物車</button>
+  </div>
   <div id="cart" class="cart-container"></div>
   <div class="cart-total" id="cart-total"></div>
+  <div id="message" class="message"></div>
 
-  <h3>購買者資料</h3>
-  <form id="buyer-form">
-    <label>姓名：<input type="text" id="buyer-name" required></label><br>
-    <label>電話：<input type="text" id="buyer-phone" required></label><br>
-    <label>Email：<input type="email" id="buyer-email" required></label><br><br>
-    <button type="button" class="checkout-btn" onclick="checkout()">送出訂單</button>
-  </form>
+  <h3>填寫資料</h3>
+<form id="buyer-form" class="buyer-form">
+
+  <div class="form-group">
+    <label for="buyer-name">姓名</label>
+    <input type="text" id="buyer-name" placeholder="請輸入您的姓名" required>
+  </div>
+
+  <div class="form-group">
+    <label for="buyer-phone">電話</label>
+    <input type="text" id="buyer-phone" placeholder="請輸入您的電話" required>
+  </div>
+
+  <div class="form-group">
+    <label for="buyer-line">Line ID</label>
+    <input type="text" id="buyer-line" placeholder="請輸入您的 Line ID" required>
+  </div>
+
+  <button type="button" class="checkout-btn" onclick="checkout()">🛍 送出訂單</button>
+</form>
 
   <button type="button" class="keepbuy-btn" onclick="window.location.href='index.html'">
-  回首頁
+  回首頁-繼續購買
   </button>
 
   <script src="script.js"></script>
   <script>
     // 🧮 改寫購物車內容顯示
     document.addEventListener("DOMContentLoaded", () => {
+            renderCart();
+    });
+
+    function renderCart() {
       const cartEl = document.getElementById("cart");
       const totalEl = document.getElementById("cart-total");
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -135,6 +214,7 @@
         total += subtotal;
         return `
           <div class="cart-item">
+            <button class="delete-btn" onclick="removeItem(${c.id}, '${p.name}')">✖</button>
             <img src="${p.image_url}" alt="${p.name}">
             <div class="cart-info">
               <h4>${p.name}</h4>
@@ -149,7 +229,32 @@
       }).join("");
 
       totalEl.textContent = `總金額：$${total}`;
-    });
+    }
+
+    function removeItem(id, name) {
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      cart = cart.filter(item => item.id !== id);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+
+      showMessage(`已刪除商品：${name}`);
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      renderCart();
+      showMessage("購物車已清空");
+    }
+
+    function showMessage(text) {
+      const messageEl = document.getElementById("message");
+      messageEl.textContent = text;
+      messageEl.style.display = "block";
+      setTimeout(() => {
+        messageEl.style.display = "none";
+      }, 3000);
+    }
+
   </script>
 </body>
 </html>

@@ -129,13 +129,33 @@ function showProductModal(p, stock) {
   };
 
   addBtn.onclick = () => {
-    updateCart(p.id, parseInt(qtyInput.value));
-    alert(`🛒 已加入購物車：${p.name} x ${qtyInput.value}`);
-    modal.style.display = "none";
+  const qty = parseInt(qtyInput.value);
+
+  if (qty > stock) {
+    alert(`⚠️ 數量超過庫存，最多只能買 ${stock} 件`);
+    return; // 不執行加入購物車
+  }
+
+  if (stock <= 0) {
+    alert(`⚠️ 商品已售完，無法加入購物車`);
+    return;
+  }
+
+  updateCart(p.id, qty);
+  alert(`🛒 已加入購物車：${p.name} x ${qty}`);
+  modal.style.display = "none";
+  qtyInput.value = 0;
   };
 
-  modal.querySelector(".modal-overlay").onclick = () => (modal.style.display = "none");
-  modal.querySelector(".modal-close").onclick = () => (modal.style.display = "none");
+modal.querySelector(".modal-close").onclick = () => {
+  modal.style.display = "none";
+  qtyInput.value = 0; // 關閉時歸零
+};
+
+modal.querySelector(".modal-overlay").onclick = () => {
+  modal.style.display = "none";
+  qtyInput.value = 0; // 點擊背景時也歸零
+};
 }
 
 // ✅ 載入商品並顯示
@@ -151,6 +171,7 @@ async function loadProducts() {
     data.forEach(item => {
       apiStock[item.id] = item.stock;
     });
+    console.log("✅ 成功取得資料：", apiStock);
   } catch (e) {
     console.warn("⚠️ 無法連線至 API，使用預設庫存");
   }
@@ -166,9 +187,9 @@ async function loadProducts() {
       <p>$${p.price}</p>
       <p>剩餘：${stock}</p>
       <div class="quantity-selector">
-        <button class="decrease">−</button>
+        <button class="decrease" ${stock === 0 ? "disabled" : ""}>−</button>
         <input type="number" value="0" min="0" max="${stock}" />
-        <button class="increase">＋</button>
+        <button class="increase" ${stock === 0 ? "disabled" : ""}>＋</button>
       </div>
       <button class="add-to-cart" ${stock === 0 ? "disabled" : ""}>加入購物車</button>
     `;
@@ -202,9 +223,9 @@ async function checkout() {
 
   const buyer_name = document.getElementById("buyer-name")?.value || "";
   const buyer_phone = document.getElementById("buyer-phone")?.value || "";
-  const buyer_email = document.getElementById("buyer-email")?.value || "";
+  const buyer_line = document.getElementById("buyer-line")?.value || "";
 
-  if (!buyer_name || !buyer_phone || !buyer_email) {
+  if (!buyer_name || !buyer_phone || !buyer_line) {
     alert("請完整填寫購買者資料！");
     return;
   }
@@ -215,7 +236,7 @@ async function checkout() {
     body: JSON.stringify({
       buyer_name,
       buyer_phone,
-      buyer_email,
+      buyer_line,
       items: cart
     })
   });
@@ -226,17 +247,6 @@ async function checkout() {
   localStorage.removeItem("cart");
   window.location.href = "index.html";
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const clearBtn = document.getElementById("clearCartBtn");
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      localStorage.removeItem("cart");
-      alert("🧹 購物車已清空");
-      loadCart();
-    });
-  }
-});
 
 // 🚀 初始化
 loadProducts();
