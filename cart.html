@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購物車</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-container {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 1rem;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 1rem;
+    }
+
+    .cart-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .cart-info h4 {
+      margin: 0 0 0.3rem;
+      font-size: 1rem;
+    }
+
+    .cart-total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+
+    button.checkout-btn {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button.keepbuy-btn:hover {
+      background-color: #871e4a;
+    }
+
+    button.keepbuy-btn {
+      background-color: #ae276a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button.checkout-btn:hover {
+      background-color: #1e874b;
+    }
+  </style>
+</head>
+<body>
+  <h2>🛒 我的購物車</h2>
+  <div id="cart" class="cart-container"></div>
+  <div class="cart-total" id="cart-total"></div>
+
+  <h3>購買者資料</h3>
+  <form id="buyer-form">
+    <label>姓名：<input type="text" id="buyer-name" required></label><br>
+    <label>電話：<input type="text" id="buyer-phone" required></label><br>
+    <label>Email：<input type="email" id="buyer-email" required></label><br><br>
+    <button type="button" class="checkout-btn" onclick="checkout()">送出訂單</button>
+  </form>
+
+  <button type="button" class="keepbuy-btn" onclick="window.location.href='index.html'">
+  回首頁
+  </button>
+
+  <script src="script.js"></script>
+  <script>
+    // 🧮 改寫購物車內容顯示
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartEl = document.getElementById("cart");
+      const totalEl = document.getElementById("cart-total");
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+      if (cart.length === 0) {
+        cartEl.innerHTML = "<p>購物車是空的。</p>";
+        totalEl.textContent = "";
+        return;
+      }
+
+      // 本地商品資料需和 script.js 對應一致
+      const localProducts = [
+        { id: 1, name: "青梅竹馬", price: 120, stock: 20, image_url: "https://placehold.co/300x200?text=T恤" },
+        { id: 2, name: "陶瓷馬", price: 120, stock: 12, image_url: "https://placehold.co/300x200?text=水瓶" },
+        { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
+        { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
+        { id: 5, name: "竹子小紅馬", price: 130, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
+        { id: 6, name: "白色獨角獸", price: 200, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
+        { id: 7, name: "粉色獨角獸", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
+        { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "https://placehold.co/300x200?text=掛件" },
+        { id: 9, name: "水豚啪啪圈兔毛", price: 168, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 10, name: "發財樹水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 11, name: "麻將水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 12, name: "牛油果水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 13, name: "粉色米水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 14, name: "藍色衣服水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
+        { id: 15, name: "游泳圈水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" }
+      ];
+
+      let total = 0;
+      cartEl.innerHTML = cart.map(c => {
+        const p = localProducts.find(p => p.id === c.id);
+        if (!p) return "";
+        const subtotal = p.price * c.qty;
+        total += subtotal;
+        return `
+          <div class="cart-item">
+            <img src="${p.image_url}" alt="${p.name}">
+            <div class="cart-info">
+              <h4>${p.name}</h4>
+              <p>數量：${c.qty}</p>
+            </div>
+            <div class="cart-price">
+              <p>$${p.price} / 件</p>
+              <strong>小計：$${subtotal}</strong>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      totalEl.textContent = `總金額：$${total}`;
+    });
+  </script>
+</body>
+</html>
