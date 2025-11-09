@@ -17,6 +17,31 @@
   <div id="product-list"></div>
    <div class="floating-buttons">
     <a href="cart.html" class="float-btn cart-btn">🛒 查看購物車</a>
+
+    <button id="searchOrderBtn" class="float-btn search-btn">🔍 查詢訂單</button>
+    <button id="contactBtn" class="float-btn contact-btn">🔍 聯繫我們</button>
+  </div>
+  <!-- 🔍 訂單查詢浮窗 -->
+  <div id="orderSearchModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>🔍 查詢訂單</h3>
+      <input type="text" id="order-search-input" placeholder="輸入訂單編號或姓名">
+      <button id="order-search-btn">查詢</button>
+      <div id="order-search-result"></div>
+    </div>
+  </div>
+
+  <!-- 📞 聯繫我們浮窗 -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>📞 聯繫我們</h3>
+      <p><strong>聯絡人：</strong> 羅佑坤</p>
+      <p><strong>電話：</strong> 0912-345-678</p>
+      <p><strong>Email：</strong> contact@example.com</p>
+      <p><strong>LINE：</strong> @exampleline</p>
+    </div>
   </div>
 
   <script src="script.js"></script>

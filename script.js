@@ -187,7 +187,7 @@ async function loadProducts() {
     });
     console.log("✅ 成功取得資料：", apiStock);
   } catch (e) {
-    console.warn("⚠️ 無法連線至 API，使用預設庫存");
+    alert("❌ 無法連線至伺服器，請稍後再試或聯繫客服");
   }
 
   container.innerHTML = "";
@@ -343,25 +343,111 @@ function showOrderSummary(order) {
 
   // === 匯出 PDF ===
   document.getElementById("save-order").onclick = async () => {
-    const summaryBox = document.querySelector(".summary-box");
-
-    // PDF 選項
-    const opt = {
-      margin:       10,
-      filename:     `order_${order.order_id}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    // ✅ 將整個訂單明細轉成 PDF（支援中文）
-    html2pdf().set(opt).from(summaryBox).save();
+    window.print();
   };
 
   document.getElementById("close-summary").onclick = () => {
     window.location.href = "index.html";
   };
 }
+
+// === 訂單查詢浮窗控制 ===
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("orderSearchModal");
+  const openBtn = document.getElementById("searchOrderBtn");
+  const closeBtn = modal?.querySelector(".close");
+  const searchBtn = document.getElementById("order-search-btn");
+  
+
+  openBtn?.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // === 查詢訂單 ===
+  searchBtn?.addEventListener("click", async () => {
+    const q = document.getElementById("order-search-input").value.trim();
+    const resultBox = document.getElementById("order-search-result");
+    resultBox.innerHTML = "查詢中...";
+
+    if (!q) {
+      resultBox.innerHTML = "⚠️ 請輸入訂單編號或姓名";
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/order/search?q=${encodeURIComponent(q)}`);
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+      }
+      const data = await res.json();
+
+      // 整理查詢結果
+      const grouped = {};
+      data.forEach(r => {
+        if (!grouped[r.order_id]) {
+          grouped[r.order_id] = {
+            buyer_name: r.buyer_name,
+            buyer_phone: r.buyer_phone,
+            buyer_line: r.buyer_line,
+            items: []
+          };
+        }
+        grouped[r.order_id].items.push({
+          name: r.product_name,
+          price: r.price,
+          qty: r.quantity
+        });
+      });
+
+      resultBox.innerHTML = Object.entries(grouped)
+        .map(([id, o]) => `
+          <div class="order-result-card">
+            <h4>🧾 訂單編號：${id}</h4>
+            <p>姓名：${o.buyer_name}</p>
+            <p>電話：${o.buyer_phone}</p>
+            <p>Line：${o.buyer_line}</p>
+            <ul>
+              ${o.items.map(i => `<li>${i.name} × ${i.qty} = $${i.price * i.qty}</li>`).join("")}
+            </ul>
+            <p><strong>總金額：</strong>$${o.items.reduce((s, i) => s + i.price * i.qty, 0)}</p>
+          </div>
+        `).join("");
+
+    } catch (err) {
+      resultBox.innerHTML = "❌ 查詢失敗：" + err.message;
+    }
+  });
+});
+
+// === 聯繫我們浮窗控制 ===
+document.addEventListener("DOMContentLoaded", () => {
+  const contactModal = document.getElementById("contactModal");
+  const contactBtn = document.getElementById("contactBtn");
+  const closeBtns = document.querySelectorAll(".modal .close");
+
+  contactBtn?.addEventListener("click", () => {
+    contactModal.style.display = "block";
+  });
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.closest(".modal").style.display = "none";
+    });
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === contactModal) contactModal.style.display = "none";
+  });
+});
 
 // 🚀 初始化
 loadProducts();
