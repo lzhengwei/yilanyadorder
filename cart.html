@@ -114,7 +114,6 @@
       border-radius: 6px;
       padding: 0.4rem 0.8rem;
       cursor: pointer;
-      font-size: 0.9rem;
     }
 
     .clear-btn:hover {
@@ -138,7 +137,7 @@
 <body>
   <div class="cart-header">
     <h2>🛒 我的購物車</h2>
-    <button class="clear-btn" onclick="clearCart()">清空購物車</button>
+    <button class="clear-btn" onclick="clearCart()">🗑️清空購物車</button>
   </div>
   <div id="cart" class="cart-container"></div>
   <div class="cart-total" id="cart-total"></div>
@@ -166,9 +165,10 @@
 </form>
 
   <button type="button" class="keepbuy-btn" onclick="window.location.href='index.html'">
-  回首頁-繼續購買
+  ⬅回首頁-繼續購買
   </button>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
     // 🧮 改寫購物車內容顯示
@@ -186,25 +186,6 @@
         totalEl.textContent = "";
         return;
       }
-
-      // 本地商品資料需和 script.js 對應一致
-      const localProducts = [
-        { id: 1, name: "青梅竹馬", price: 120, stock: 20, image_url: "https://placehold.co/300x200?text=T恤" },
-        { id: 2, name: "陶瓷馬", price: 120, stock: 12, image_url: "https://placehold.co/300x200?text=水瓶" },
-        { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-        { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-        { id: 5, name: "竹子小紅馬", price: 130, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-        { id: 6, name: "白色獨角獸", price: 200, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
-        { id: 7, name: "粉色獨角獸", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
-        { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "https://placehold.co/300x200?text=掛件" },
-        { id: 9, name: "水豚啪啪圈兔毛", price: 168, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 10, name: "發財樹水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 11, name: "麻將水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 12, name: "牛油果水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 13, name: "粉色米水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 14, name: "藍色衣服水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-        { id: 15, name: "游泳圈水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" }
-      ];
 
       let total = 0;
       cartEl.innerHTML = cart.map(c => {

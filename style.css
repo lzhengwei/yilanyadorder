@@ -115,6 +115,83 @@ button:disabled {
   }
 }
 
+.middle-section {
+  padding: 0rem;
+  background: #f9f9f9;
+  font-size: 1rem;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+/* === 訂單明細浮窗 === */
+#order-summary {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.summary-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.summary-box {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 90%;
+  z-index: 2001;
+  text-align: left;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.summary-box h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #27ae60;
+}
+
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-actions {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.summary-actions button {
+  margin: 0.3rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#save-order {
+  background: #3498db;
+  color: #fff;
+}
+
+#close-summary {
+  background: #e74c3c;
+  color: #fff;
+}
+
+
 /* === 浮動按鈕樣式 === */
 .floating-buttons {
   position: fixed;

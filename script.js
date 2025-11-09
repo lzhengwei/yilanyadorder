@@ -120,11 +120,25 @@ function showProductModal(p, stock) {
 
   const qtyInput = document.getElementById("modal-qty");
   const addBtn = document.getElementById("modal-add");
+  const increaseBtn = document.getElementById("modal-increase");
+  const decreaseBtn = document.getElementById("modal-decrease");
 
-  document.getElementById("modal-increase").onclick = () => {
+  // 假設 stock 是你從後端或 DOM 取得的庫存數量
+  if (stock === 0) {
+    addBtn.disabled = true;
+    increaseBtn.disabled = true;
+    decreaseBtn.disabled = true;
+  } else {
+    addBtn.disabled = false;
+    increaseBtn.disabled = false;
+    decreaseBtn.disabled = false;
+  }
+
+  increaseBtn.onclick = () => {
     if (qtyInput.value < stock) qtyInput.value++;
   };
-  document.getElementById("modal-decrease").onclick = () => {
+
+  decreaseBtn.onclick = () => {
     if (qtyInput.value > 1) qtyInput.value--;
   };
 
@@ -219,7 +233,10 @@ async function loadCart() {
 // ✅ 結帳
 async function checkout() {
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  if (cart.length === 0) return alert("購物車是空的！");
+  if (cart.length === 0) {
+    alert("購物車是空的！");
+    return;
+  }
 
   const buyer_name = document.getElementById("buyer-name")?.value || "";
   const buyer_phone = document.getElementById("buyer-phone")?.value || "";
@@ -230,22 +247,120 @@ async function checkout() {
     return;
   }
 
-  const res = await fetch(`${API_BASE}/order`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  try {
+    const res = await fetch(`${API_BASE}/order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        buyer_name,
+        buyer_phone,
+        buyer_line,
+        items: cart
+      })
+    });
+
+    // 检查 HTTP 状态码
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
+    }
+
+    const data = await res.json();
+    
+    // 检查 API 响应是否包含订单号
+    if (!data.order_id) {
+      throw new Error("伺服器回應缺少訂單編號");
+    }
+
+    alert("✅ 訂單已建立！編號：" + data.order_id);
+
+    // 顯示購買明細浮窗
+    showOrderSummary({
+      order_id: data.order_id,
       buyer_name,
       buyer_phone,
       buyer_line,
       items: cart
-    })
-  });
+    });
 
-  const data = await res.json();
-  alert("✅ 訂單已建立！編號：" + data.order_id);
+    // 清空购物车并跳转
+    localStorage.removeItem("cart");
+    
+  } catch (error) {
+    console.error("❌ 訂單建立失敗:", error);
+    
+    if (error.message.includes("HTTP 4") || error.message.includes("HTTP 5")) {
+      alert("❌ 伺服器錯誤，請稍後再試或聯繫客服");
+    } else if (error.message.includes("Failed to fetch")) {
+      alert("❌ 網路連線失敗，請檢查網路連線");
+    } else {
+      alert("❌ 訂單建立失敗: " + error.message);
+    }
+  }
+}
 
-  localStorage.removeItem("cart");
-  window.location.href = "index.html";
+// ✅ 顯示購買明細浮窗
+function showOrderSummary(order) {
+  const products = localProducts;
+  const modal = document.createElement("div");
+  modal.id = "order-summary";
+  modal.innerHTML = `
+    <div class="summary-overlay"></div>
+    <div class="summary-box">
+      <h2>✅ 訂單建立成功！</h2>
+      <p><strong>訂單編號：</strong>${order.order_id}</p>
+      <hr>
+      <h3>購買者資料</h3>
+      <p>👤 姓名：${order.buyer_name}</p>
+      <p>📞 電話：${order.buyer_phone}</p>
+      <p>💬 Line ID：${order.buyer_line}</p>
+      <hr>
+      <h3>商品明細</h3>
+      <div class="summary-items">
+        ${order.items.map(i => {
+          const p = products.find(p => p.id === i.id);
+          const subtotal = p ? p.price * i.qty : 0;
+          return `
+            <div class="summary-item">
+              <span>${p?.name || "未知商品"} × ${i.qty}</span>
+              <span>$${subtotal}</span>
+            </div>
+          `;
+        }).join("")}
+      </div>
+      <hr>
+      <p><strong>總金額：</strong>$${order.items.reduce((sum, i) => {
+        const p = products.find(p => p.id === i.id);
+        return sum + (p ? p.price * i.qty : 0);
+      }, 0)}</p>
+      <div class="summary-actions">
+        <button id="save-order">💾 儲存結果</button>
+        <button id="close-summary">✖ 關閉</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // === 匯出 PDF ===
+  document.getElementById("save-order").onclick = async () => {
+    const summaryBox = document.querySelector(".summary-box");
+
+    // PDF 選項
+    const opt = {
+      margin:       10,
+      filename:     `order_${order.order_id}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // ✅ 將整個訂單明細轉成 PDF（支援中文）
+    html2pdf().set(opt).from(summaryBox).save();
+  };
+
+  document.getElementById("close-summary").onclick = () => {
+    window.location.href = "index.html";
+  };
 }
 
 // 🚀 初始化
