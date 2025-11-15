@@ -143,9 +143,8 @@
   <div class="cart-total" id="cart-total"></div>
   <div id="message" class="message"></div>
 
-  <h3>填寫資料</h3>
+<h3>填寫資料</h3>
 <form id="buyer-form" class="buyer-form">
-
   <div class="form-group">
     <label for="buyer-name">姓名</label>
     <input type="text" id="buyer-name" placeholder="請輸入您的姓名" required>
@@ -159,6 +158,40 @@
   <div class="form-group">
     <label for="buyer-line">Line ID</label>
     <input type="text" id="buyer-line" placeholder="請輸入您的 Line ID" required>
+  </div>
+
+  <!-- 🔹取貨方式 -->
+  <div class="form-group">
+    <label>取貨方式</label><br>
+    <label><input type="radio" name="delivery" value="pickup" checked> 現場取貨</label>
+    <label><input type="radio" name="delivery" value="shipping"> 郵寄</label>
+  </div>
+
+  <!-- 🔹現場取貨選項 -->
+  <div id="pickup-options" class="form-group">
+    <label for="pickup-time">選擇取貨時間</label>
+    <select id="pickup-time">
+      <option value="10-12">上午 10:00 - 12:00</option>
+      <option value="14-16">下午 14:00 - 16:00</option>
+    </select>
+  </div>
+
+  <!-- 🔹郵寄欄位 -->
+  <div id="shipping-info" style="display:none;">
+    <div class="form-group">
+      <label for="receiver-name">收件人</label>
+      <input type="text" id="receiver-name" placeholder="請輸入收件人姓名">
+    </div>
+
+    <div class="form-group">
+      <label for="receiver-phone">收件人電話</label>
+      <input type="text" id="receiver-phone" placeholder="請輸入收件人電話">
+    </div>
+
+    <div class="form-group">
+      <label for="receiver-address">收件地址</label>
+      <input type="text" id="receiver-address" placeholder="請輸入收件地址">
+    </div>
   </div>
 
   <button type="button" class="checkout-btn" onclick="checkout()">🛍 送出訂單</button>
@@ -236,6 +269,28 @@
       }, 3000);
     }
 
+    document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+
+  // 🔹切換取貨方式
+  const deliveryRadios = document.querySelectorAll('input[name="delivery"]');
+  const pickupOptions = document.getElementById("pickup-options");
+  const shippingInfo = document.getElementById("shipping-info");
+
+    deliveryRadios.forEach(radio => {
+        radio.addEventListener("change", () => {
+          if (radio.value === "pickup" && radio.checked) {
+            pickupOptions.style.display = "block";
+            shippingInfo.style.display = "none";
+          } else if (radio.value === "shipping" && radio.checked) {
+            pickupOptions.style.display = "none";
+            shippingInfo.style.display = "block";
+          }
+        });
+      });
+    });
+
   </script>
 </body>
 </html>
+

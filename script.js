@@ -23,7 +23,10 @@ function updateCart(id, qty) {
 
 // ✅ 模擬 15 組商品資料（前端預覽模式）
 const localProducts = [
-  { id: 1, name: "青梅竹馬", price: 120, stock: 20, image_url: "https://placehold.co/300x200?text=T恤" },
+  { id: 1, name: "青梅竹馬", price: 120, stock: 20, image_url: [
+    "https://placehold.co/300x200?text=T恤1",
+    "https://placehold.co/300x200?text=T恤2"
+  ] },
   { id: 2, name: "陶瓷馬", price: 120, stock: 12, image_url: "https://placehold.co/300x200?text=水瓶" },
   { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
   { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
@@ -50,7 +53,13 @@ function createModal() {
     <div class="modal-overlay"></div>
     <div class="modal-content">
       <button class="modal-close">✖</button>
-      <img id="modal-image" src="" alt="">
+
+      <div class="modal-image-wrapper">
+        <button class="prev-btn">⟨</button>
+        <img id="modal-image" src="" alt="">
+        <button class="next-btn">⟩</button>
+      </div>
+
       <h2 id="modal-name"></h2>
       <p id="modal-price"></p>
       <p id="modal-stock"></p>
@@ -90,40 +99,87 @@ function createModal() {
       text-align: center;
       z-index: 1000;
     }
-    .modal-content img {
+    .modal-image-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-image-wrapper img {
       width: 100%;
       border-radius: 10px;
     }
+    .prev-btn, .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      border: none;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
     .modal-close {
       position: absolute;
       top: 10px;
       right: 10px;
       background: none;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
+      color: #333;
+      z-index: 2000; /* ✅ 確保在最上層 */
     }
   `;
   document.head.appendChild(style);
 }
 createModal();
 
-// ✅ 顯示商品詳細視窗
+// ✅ 顯示商品詳細視窗（支援多張圖片）
 function showProductModal(p, stock) {
   const modal = document.getElementById("product-modal");
+  const modalImg = document.getElementById("modal-image");
+  const prevBtn = modal.querySelector(".prev-btn");
+  const nextBtn = modal.querySelector(".next-btn");
+
+  // 支援 image_url 為字串或陣列
+  const images = Array.isArray(p.image_url) ? p.image_url : [p.image_url];
+  let currentIndex = 0;
+
+  function updateImage() {
+    modalImg.src = images[currentIndex];
+    prevBtn.style.display = images.length > 1 ? "block" : "none";
+    nextBtn.style.display = images.length > 1 ? "block" : "none";
+  }
+
+  updateImage();
+
+  prevBtn.onclick = () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateImage();
+  };
+
+  nextBtn.onclick = () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateImage();
+  };
+
   modal.style.display = "flex";
-  document.getElementById("modal-image").src = p.image_url;
   document.getElementById("modal-name").textContent = p.name;
   document.getElementById("modal-price").textContent = `價格：$${p.price}`;
   document.getElementById("modal-stock").textContent = `庫存：${stock}`;
-  document.getElementById("modal-desc").textContent = p.desc;
+  document.getElementById("modal-desc").textContent = p.desc || "";
 
   const qtyInput = document.getElementById("modal-qty");
   const addBtn = document.getElementById("modal-add");
   const increaseBtn = document.getElementById("modal-increase");
   const decreaseBtn = document.getElementById("modal-decrease");
 
-  // 假設 stock 是你從後端或 DOM 取得的庫存數量
+  // === 數量按鈕 ===
   if (stock === 0) {
     addBtn.disabled = true;
     increaseBtn.disabled = true;
@@ -143,75 +199,104 @@ function showProductModal(p, stock) {
   };
 
   addBtn.onclick = () => {
-  const qty = parseInt(qtyInput.value);
-
-  if (qty > stock) {
-    alert(`⚠️ 數量超過庫存，最多只能買 ${stock} 件`);
-    return; // 不執行加入購物車
-  }
-
-  if (stock <= 0) {
-    alert(`⚠️ 商品已售完，無法加入購物車`);
-    return;
-  }
-
-  updateCart(p.id, qty);
-  alert(`🛒 已加入購物車：${p.name} x ${qty}`);
-  modal.style.display = "none";
-  qtyInput.value = 0;
+    const qty = parseInt(qtyInput.value);
+    if (qty > stock) {
+      alert(`⚠️ 數量超過庫存，最多只能買 ${stock} 件`);
+      return;
+    }
+    if (stock <= 0) {
+      alert(`⚠️ 商品已售完，無法加入購物車`);
+      return;
+    }
+    updateCart(p.id, qty);
+    alert(`🛒 已加入購物車：${p.name} x ${qty}`);
+    qtyInput.value = 1;
+    modal.style.display = "none";
   };
 
 modal.querySelector(".modal-close").onclick = () => {
   modal.style.display = "none";
-  qtyInput.value = 0; // 關閉時歸零
+  qtyInput.value = 1; // 關閉時歸零
 };
 
 modal.querySelector(".modal-overlay").onclick = () => {
   modal.style.display = "none";
-  qtyInput.value = 0; // 點擊背景時也歸零
+  qtyInput.value = 1; // 點擊背景時也歸零
 };
 }
 
-// ✅ 載入商品並顯示
+
+// ✅ 載入商品並顯示（支援動態更新按鈕）
 async function loadProducts() {
   const container = document.getElementById("product-list");
   if (!container) return;
-    container.innerHTML = "<p>載入中...</p>";
-
-  let apiStock = {};
-  try {
-    const res = await fetch(`${API_BASE}/products`);
-    const data = await res.json();
-    data.forEach(item => {
-      apiStock[item.id] = item.stock;
-    });
-    console.log("✅ 成功取得資料：", apiStock);
-  } catch (e) {
-    alert("❌ 無法連線至伺服器，請稍後再試或聯繫客服");
-  }
+  container.innerHTML = "<p>載入中...</p>";
 
   container.innerHTML = "";
   localProducts.forEach(p => {
-    const stock = apiStock[p.id] ?? 0;
     const div = document.createElement("div");
     div.className = "product";
+    div.dataset.id = p.id;       // 商品ID
+    div.dataset.stock = 0;       // 預設庫存（等後端回來更新）
     div.innerHTML = `
       <img src="${p.image_url}" alt="${p.name}">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
-      <p>剩餘：${stock}</p>
+      <p class="stock">庫存載入中...</p>
       <div class="quantity-selector">
-        <button class="decrease" ${stock === 0 ? "disabled" : ""}>−</button>
-        <input type="number" value="0" min="0" max="${stock}" />
-        <button class="increase" ${stock === 0 ? "disabled" : ""}>＋</button>
+        <button class="decrease" disabled>−</button>
+        <input type="number" value="0" min="0" max="0" />
+        <button class="increase" disabled>＋</button>
       </div>
-      <button class="add-to-cart" ${stock === 0 ? "disabled" : ""}>加入購物車</button>
+      <button class="add-to-cart" disabled>加入購物車</button>
     `;
 
-        // 點擊商品卡開啟詳情視窗
-    div.addEventListener("click", () => showProductModal(p, stock));
+    // 🔗 點擊卡片顯示詳細視窗（庫存後續會更新）
+    div.addEventListener("click", (e) => {
+      // ⚠️ 避免點擊內部按鈕（如加入購物車）時觸發 Modal
+
+      const currentStock = parseInt(div.dataset.stock) || 0;
+      showProductModal(p, currentStock);
+    });
+
     container.appendChild(div);
   });
+
+  // 🧩 後端載入庫存
+  try {
+    const res = await fetch(`${API_BASE}/products`);
+    const data = await res.json();
+
+    data.forEach(item => {
+      const productDiv = container.querySelector(`[data-id="${item.id}"]`);
+      if (productDiv) {
+        // ✅ 更新 dataset 與畫面顯示
+        productDiv.dataset.stock = item.stock;
+        const stockEl = productDiv.querySelector(".stock");
+        stockEl.textContent = `剩餘：${item.stock}`;
+
+        // ✅ 更新所有相關按鈕狀態
+        const decreaseBtn = productDiv.querySelector(".decrease");
+        const increaseBtn = productDiv.querySelector(".increase");
+        const qtyInput = productDiv.querySelector("input");
+        const addBtn = productDiv.querySelector(".add-to-cart");
+
+        if (item.stock > 0) {
+          decreaseBtn.disabled = false;
+          increaseBtn.disabled = false;
+          addBtn.disabled = false;
+          qtyInput.max = item.stock;
+        } else {
+          decreaseBtn.disabled = true;
+          increaseBtn.disabled = true;
+          addBtn.disabled = true;
+          qtyInput.max = 0;
+        }
+      }
+    });
+  } catch (e) {
+    alert("❌ 伺服器錯誤，請稍後再試或聯繫客服");
+  }
 }
 
 // ✅ 顯示購物車內容
@@ -235,9 +320,11 @@ async function checkout() {
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
   if (cart.length === 0) {
     alert("購物車是空的！");
+    window.location.href = "index.html";
     return;
   }
 
+  const delivery_method = document.querySelector('input[name="delivery"]:checked')?.value;
   const buyer_name = document.getElementById("buyer-name")?.value || "";
   const buyer_phone = document.getElementById("buyer-phone")?.value || "";
   const buyer_line = document.getElementById("buyer-line")?.value || "";
@@ -248,15 +335,35 @@ async function checkout() {
   }
 
   try {
+
+  const orderData = {
+    buyer_name,
+    buyer_phone,
+    buyer_line,
+    delivery_method,
+    items: cart
+  };
+
+  if (delivery_method === "pickup") {
+    orderData.pickup_time = document.getElementById("pickup-time").value;
+  }
+
+  // === 郵寄 ===
+  if (delivery_method === "shipping") {
+    orderData.receiver_name = document.getElementById("receiver-name").value;
+    orderData.receiver_phone = document.getElementById("receiver-phone").value;
+    orderData.receiver_address = document.getElementById("receiver-address").value;
+
+    if (!orderData.receiver_name || !orderData.receiver_phone || !orderData.receiver_address) {
+      alert("請完整填寫郵寄資訊！");
+      return;
+    }
+  }
+
     const res = await fetch(`${API_BASE}/order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        buyer_name,
-        buyer_phone,
-        buyer_line,
-        items: cart
-      })
+      body: JSON.stringify(orderData)
     });
 
     // 检查 HTTP 状态码
@@ -280,6 +387,11 @@ async function checkout() {
       buyer_name,
       buyer_phone,
       buyer_line,
+      delivery_method,
+      pickup_time: orderData.pickup_time,
+      receiver_name: orderData.receiver_name,
+      receiver_phone: orderData.receiver_phone,
+      receiver_address: orderData.receiver_address,
       items: cart
     });
 
@@ -314,6 +426,7 @@ function showOrderSummary(order) {
       <p>👤 姓名：${order.buyer_name}</p>
       <p>📞 電話：${order.buyer_phone}</p>
       <p>💬 Line ID：${order.buyer_line}</p>
+      ${renderDeliveryInfo(order)}
       <hr>
       <h3>商品明細</h3>
       <div class="summary-items">
@@ -349,6 +462,24 @@ function showOrderSummary(order) {
   document.getElementById("close-summary").onclick = () => {
     window.location.href = "index.html";
   };
+}
+
+function renderDeliveryInfo(o) {
+  if (o.delivery_method === "pickup") {
+    return `
+      <p>取貨方式：現場取貨</p>
+      <p>取貨時間：${o.pickup_time || "未指定"}</p>
+    `;
+  }
+  if (o.delivery_method === "shipping") {
+    return `
+      <p>取貨方式：郵寄</p>
+      <p>收件人：${o.receiver_name || "未指定"}</p>
+      <p>收件人電話：${o.receiver_phone || "未指定"}</p>
+      <p>收件地址：${o.receiver_address || "未指定"}</p>
+    `;
+  }
+  return "";
 }
 
 // === 訂單查詢浮窗控制 ===
@@ -398,6 +529,11 @@ document.addEventListener("DOMContentLoaded", () => {
             buyer_name: r.buyer_name,
             buyer_phone: r.buyer_phone,
             buyer_line: r.buyer_line,
+            delivery_method: r.delivery_method,
+            pickup_time: r.pickup_time,
+            receiver_name: r.receiver_name,
+            receiver_phone: r.receiver_phone,
+            receiver_address: r.receiver_address,
             items: []
           };
         }
@@ -415,6 +551,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>姓名：${o.buyer_name}</p>
             <p>電話：${o.buyer_phone}</p>
             <p>Line：${o.buyer_line}</p>
+            ${renderDeliveryInfo(o)}
+            <h3>商品明細</h3>
             <ul>
               ${o.items.map(i => `<li>${i.name} × ${i.qty} = $${i.price * i.qty}</li>`).join("")}
             </ul>
