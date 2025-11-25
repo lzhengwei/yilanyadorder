@@ -21,26 +21,51 @@ function updateCart(id, qty) {
   saveCart(cart);
 }
 
+// ✅ 定義分類
+const categories = [
+  { id: 1, name: "駿馬系列娃娃", startId: 1, endId: 8 },
+  { id: 2, name: "卡皮巴拉系列娃娃", startId: 9, endId: 15 },
+  { id: 3, name: "佛光普皂-活力清新系", startId: 16, endId: 18 },
+  { id: 4, name: "佛光普皂-療癒花香系", startId: 19, endId: 21 },
+  { id: 5, name: "佛光普皂-森林木質系", startId: 22, endId: 24 },
+  { id: 6, name: "佛光普皂-放鬆安神系", startId: 25, endId: 27 },
+  { id: 7, name: "佛光普皂-優惠組合", startId: 28, endId: 28 },
+];
+
 // ✅ 模擬 15 組商品資料（前端預覽模式）
 const localProducts = [
-  { id: 1, name: "青梅竹馬", price: 120, stock: 20, image_url: [
-    "https://placehold.co/300x200?text=T恤1",
-    "https://placehold.co/300x200?text=T恤2"
+  { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [
+    "asset/doll/青梅竹馬.png",
   ] },
-  { id: 2, name: "陶瓷馬", price: 120, stock: 12, image_url: "https://placehold.co/300x200?text=水瓶" },
-  { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-  { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-  { id: 5, name: "竹子小紅馬", price: 130, stock: 10, image_url: "https://placehold.co/300x200?text=馬" },
-  { id: 6, name: "白色獨角獸", price: 200, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
-  { id: 7, name: "粉色獨角獸", price: 250, stock: 10, image_url: "https://placehold.co/300x200?text=獨角獸" },
-  { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "https://placehold.co/300x200?text=掛件" },
-  { id: 9, name: "水豚啪啪圈兔毛", price: 168, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 10, name: "發財樹水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 11, name: "麻將水豚", price: 220, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 12, name: "牛油果水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 13, name: "粉色米水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 14, name: "藍色衣服水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" },
-  { id: 15, name: "游泳圈水豚", price: 350, stock: 10, image_url: "https://placehold.co/300x200?text=水豚" }
+  { id: 2, name: "陶瓷馬", price: 150, stock: 12, image_url: "asset/doll/陶瓷馬.png" },
+  { id: 3, name: "流蘇白馬", price: 250, stock: 10, image_url: "asset/doll/流蘇白馬.png" },
+  { id: 4, name: "金貂福馬", price: 280, stock: 10, image_url: "asset/doll/金貂福馬.png" },
+  { id: 5, name: "竹子小紅馬", price: 120, stock: 10, image_url: "asset/doll/竹子小紅馬.png" },
+  { id: 6, name: "白色獨角獸", price: 250, stock: 10, image_url: "asset/doll/白色獨角獸.png" },
+  { id: 7, name: "粉色獨角獸", price: 200, stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
+  { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "asset/doll/馬上有錢掛件.png" },
+  { id: 9, name: "長壽水豚", price: 168, stock: 10, image_url: "asset/doll/長壽水豚.png" },
+  { id: 10, name: "大吉大利水豚", price: 220, stock: 10, image_url: "asset/doll/大吉大利水豚.png" },
+  { id: 11, name: "發心水豚", price: 220, stock: 10, image_url: "asset/doll/發心水豚.png" },
+  { id: 12, name: "夏威夷水豚", price: 350, stock: 10, image_url: "asset/doll/夏威夷水豚.png" },
+  { id: 13, name: "游泳健將水豚", price: 350, stock: 10, image_url: "asset/doll/游泳健將水豚.png" },
+  { id: 14, name: "粉系水豚", price: 350, stock: 10, image_url: "asset/doll/粉系水豚.png" },
+  { id: 15, name: "牛油果水豚組合", price: 500, stock: 10, image_url: "asset/doll/牛油果水豚組合.jpg" },
+  { id: 16, name: "恭喜發財", price: 50, stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png" },
+  { id: 17, name: "招財進寶", price: 50, stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png" },
+  { id: 18, name: "福字", price: 50, stock: 20, image_url: "asset/soap/活力清新系_福字.png" },
+  { id: 19, name: "吉祥", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_吉祥.png" },
+  { id: 20, name: "如意", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_如意.png" },
+  { id: 21, name: "太陽花", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_花.png" },
+  { id: 22, name: "幸福", price: 60, stock: 10, image_url: "asset/soap/森林木質系_幸福.png" },
+  { id: 23, name: "快樂", price: 60, stock: 10, image_url: "asset/soap/森林木質系_快樂.png" },
+  { id: 24, name: "平安", price: 60, stock: 10, image_url: "asset/soap/森林木質系_平安竹.png" },
+  { id: 25, name: "元寶", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_元寶.jpg" },
+  { id: 26, name: "福氣馬", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png" },
+  { id: 27, name: "馬到成功", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png" },
+  { id: 28, name: "優惠組合", price: 350, stock: 10, image_url: "asset/soap/優惠組合.png"
+    , desc: "福氣馬、馬到成功、如意、幸福優惠組合"
+   },
 ];
 
 
@@ -214,89 +239,157 @@ function showProductModal(p, stock) {
     modal.style.display = "none";
   };
 
-modal.querySelector(".modal-close").onclick = () => {
-  modal.style.display = "none";
-  qtyInput.value = 1; // 關閉時歸零
-};
+  modal.querySelector(".modal-close").onclick = () => {
+    modal.style.display = "none";
+    qtyInput.value = 1; // 關閉時歸零
+  };
 
-modal.querySelector(".modal-overlay").onclick = () => {
-  modal.style.display = "none";
-  qtyInput.value = 1; // 點擊背景時也歸零
-};
+  modal.querySelector(".modal-overlay").onclick = () => {
+    modal.style.display = "none";
+    qtyInput.value = 1; // 點擊背景時也歸零
+  };
 }
 
+// ✅ 載入分類標題
+function loadCategories() {
+  const linksContainer = document.getElementById("category-links");
+  if (!linksContainer) return;
 
-// ✅ 載入商品並顯示（支援動態更新按鈕）
+  linksContainer.innerHTML = categories.map(cat =>
+    `<a class="category-link" href="#cat-${cat.id}">${cat.name}</a>`
+  ).join(' ');
+}
+
 async function loadProducts() {
   const container = document.getElementById("product-list");
   if (!container) return;
+
   container.innerHTML = "<p>載入中...</p>";
-
   container.innerHTML = "";
-  localProducts.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "product";
-    div.dataset.id = p.id;       // 商品ID
-    div.dataset.stock = 0;       // 預設庫存（等後端回來更新）
-    div.innerHTML = `
-      <img src="${p.image_url}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      <p class="stock">庫存載入中...</p>
-      <div class="quantity-selector">
-        <button class="decrease" disabled>−</button>
-        <input type="number" value="0" min="0" max="0" />
-        <button class="increase" disabled>＋</button>
-      </div>
-      <button class="add-to-cart" disabled>加入購物車</button>
-    `;
 
-    // 🔗 點擊卡片顯示詳細視窗（庫存後續會更新）
+  // ==== 先顯示所有商品，但 stock 顯示讀取中 ====
+  categories.forEach(category => {
+
+    const title = document.createElement("h2");
+    title.textContent = category.name;
+    // add id for anchor linking from top navigation
+    title.id = `cat-${category.id}`;
+    title.className = "category-title";
+    container.appendChild(title);
+
+    const categoryContainer = document.createElement("div");
+    categoryContainer.className = "category-container";
+
+    const categoryProducts = localProducts.filter(p =>
+      p.id >= category.startId && p.id <= category.endId
+    );
+
+    categoryProducts.forEach(p => {
+  const div = document.createElement("div");
+  div.className = "product";
+  div.dataset.id = p.id;
+
+  div.innerHTML = `
+    <img src="${Array.isArray(p.image_url) ? p.image_url[0] : p.image_url}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>$${p.price}</p>
+
+    <p class="stock">讀取中...</p>
+
+    <div class="quantity-selector">
+      <button class="decrease" disabled>−</button>
+      <input type="number" value="0" min="0" disabled />
+      <button class="increase" disabled>＋</button>
+    </div>
+
+    <button class="add-to-cart" disabled>加入購物車</button>
+  `;
+
+    // 🔥 原本：只給商品卡片整體觸發
     div.addEventListener("click", (e) => {
-      // ⚠️ 避免點擊內部按鈕（如加入購物車）時觸發 Modal
+      if (e.target.classList.contains("decrease")) return;
+      if (e.target.classList.contains("increase")) return;
+      if (e.target.classList.contains("add-to-cart")) return;
+      if (e.target.tagName === 'INPUT') return;
 
-      const currentStock = parseInt(div.dataset.stock) || 0;
-      showProductModal(p, currentStock);
+      const latestStock = Number(div.dataset.stock);
+      showProductModal(p, latestStock);
     });
 
-    container.appendChild(div);
+    // 🔥 為 decrease 增加事件
+    div.querySelector(".decrease").addEventListener("click", (e) => {
+      e.stopPropagation();  // 不要讓事件被 div 處理
+      // ↓↓↓ 原本 decrease 的功能（如果你之後有）↓↓↓
+      // ...
+
+      // 🔥 點完還是開 modal
+      div.click();
+    });
+
+    // 🔥 為 increase 增加事件
+    div.querySelector(".increase").addEventListener("click", (e) => {
+      e.stopPropagation();
+      // ...
+
+      div.click(); // 同樣開 modal
+    });
+
+    // 🔥 為 add-to-cart 增加事件
+    div.querySelector(".add-to-cart").addEventListener("click", (e) => {
+      e.stopPropagation();
+      // ...
+
+      div.click(); // 同樣開 modal
+    });
+
+    categoryContainer.appendChild(div);
   });
 
-  // 🧩 後端載入庫存
+
+    container.appendChild(categoryContainer);
+  });
+
+  // ==== 後端資料回來後更新庫存 ====
   try {
     const res = await fetch(`${API_BASE}/products`);
-    const data = await res.json();
+    const backendProducts = await res.json();
 
-    data.forEach(item => {
-      const productDiv = container.querySelector(`[data-id="${item.id}"]`);
-      if (productDiv) {
-        // ✅ 更新 dataset 與畫面顯示
-        productDiv.dataset.stock = item.stock;
-        const stockEl = productDiv.querySelector(".stock");
-        stockEl.textContent = `剩餘：${item.stock}`;
+    updateStocks(backendProducts);
 
-        // ✅ 更新所有相關按鈕狀態
-        const decreaseBtn = productDiv.querySelector(".decrease");
-        const increaseBtn = productDiv.querySelector(".increase");
-        const qtyInput = productDiv.querySelector("input");
-        const addBtn = productDiv.querySelector(".add-to-cart");
-
-        if (item.stock > 0) {
-          decreaseBtn.disabled = false;
-          increaseBtn.disabled = false;
-          addBtn.disabled = false;
-          qtyInput.max = item.stock;
-        } else {
-          decreaseBtn.disabled = true;
-          increaseBtn.disabled = true;
-          addBtn.disabled = true;
-          qtyInput.max = 0;
-        }
-      }
-    });
-  } catch (e) {
-    alert("❌ 伺服器錯誤，請稍後再試或聯繫客服");
+  } catch (err) {
+    console.error("載入庫存失敗，使用 fallback");
   }
+}
+
+
+function updateStocks(backendProducts) {
+  backendProducts.forEach(bp => {
+    const productDiv = document.querySelector(`.product[data-id="${bp.id}"]`);
+    if (!productDiv) return;
+
+    const stockElem = productDiv.querySelector(".stock");
+    const decreaseBtn = productDiv.querySelector(".decrease");
+    const increaseBtn = productDiv.querySelector(".increase");
+    const inputElem = productDiv.querySelector("input");
+    const addBtn = productDiv.querySelector(".add-to-cart");
+
+    productDiv.dataset.stock = bp.stock;
+
+    if (bp.stock > 0) {
+      stockElem.textContent = `剩餘：${bp.stock}`;
+      decreaseBtn.disabled = false;
+      increaseBtn.disabled = false;
+      inputElem.disabled = false;
+      addBtn.disabled = false;
+      inputElem.max = bp.stock;
+    } else {
+      stockElem.textContent = "已售完";
+      decreaseBtn.disabled = true;
+      increaseBtn.disabled = true;
+      inputElem.disabled = true;
+      addBtn.disabled = true;
+    }
+  });
 }
 
 // ✅ 顯示購物車內容
@@ -321,6 +414,7 @@ async function checkout() {
   if (cart.length === 0) {
     alert("購物車是空的！");
     window.location.href = "index.html";
+    
     return;
   }
 
@@ -328,6 +422,8 @@ async function checkout() {
   const buyer_name = document.getElementById("buyer-name")?.value || "";
   const buyer_phone = document.getElementById("buyer-phone")?.value || "";
   const buyer_line = document.getElementById("buyer-line")?.value || "";
+  const soap_box_check = document.querySelector('input[name="add-soapbox"]:checked')?.value;
+  const soap_box_count = document.getElementById("soapbox-qty")?.value || "";
 
   if (!buyer_name || !buyer_phone || !buyer_line) {
     alert("請完整填寫購買者資料！");
@@ -340,6 +436,7 @@ async function checkout() {
     buyer_name,
     buyer_phone,
     buyer_line,
+    soap_box_count,
     delivery_method,
     items: cart
   };
@@ -358,6 +455,13 @@ async function checkout() {
       alert("請完整填寫郵寄資訊！");
       return;
     }
+  }
+
+  if (soap_box_check === "yes") {
+    orderData.soap_box_count = parseInt(soap_box_count) || 0;
+  }
+  else {
+    orderData.soap_box_count = 0;
   }
 
     const res = await fetch(`${API_BASE}/order`, {
@@ -387,6 +491,7 @@ async function checkout() {
       buyer_name,
       buyer_phone,
       buyer_line,
+      soap_box_count,
       delivery_method,
       pickup_time: orderData.pickup_time,
       receiver_name: orderData.receiver_name,
@@ -429,6 +534,12 @@ function showOrderSummary(order) {
       ${renderDeliveryInfo(order)}
       <hr>
       <h3>商品明細</h3>
+      ${order.soap_box_count > 0 ? `
+        <div class="summary-item">
+          <span>佛光普皂禮盒 × ${order.soap_box_count}</span>
+          <span>$${order.soap_box_count * 20}</span>
+        </div>
+      ` : ""}
       <div class="summary-items">
         ${order.items.map(i => {
           const p = products.find(p => p.id === i.id);
@@ -445,7 +556,7 @@ function showOrderSummary(order) {
       <p><strong>總金額：</strong>$${order.items.reduce((sum, i) => {
         const p = products.find(p => p.id === i.id);
         return sum + (p ? p.price * i.qty : 0);
-      }, 0)}</p>
+      }, 0) + (order.soap_box_count * 20)}</p>
       <div class="summary-actions">
         <button id="save-order">💾 儲存結果</button>
         <button id="close-summary">✖ 關閉</button>
@@ -529,6 +640,7 @@ document.addEventListener("DOMContentLoaded", () => {
             buyer_name: r.buyer_name,
             buyer_phone: r.buyer_phone,
             buyer_line: r.buyer_line,
+            soap_box_count: r.soap_box_count,
             delivery_method: r.delivery_method,
             pickup_time: r.pickup_time,
             receiver_name: r.receiver_name,
@@ -550,13 +662,19 @@ document.addEventListener("DOMContentLoaded", () => {
             <h4>🧾 訂單編號：${id}</h4>
             <p>姓名：${o.buyer_name}</p>
             <p>電話：${o.buyer_phone}</p>
-            <p>Line：${o.buyer_line}</p>
+            <p>Line ID：${o.buyer_line}</p>
             ${renderDeliveryInfo(o)}
             <h3>商品明細</h3>
+            ${o.soap_box_count > 0 ? `
+            <div class="summary-item">
+              <span>佛光普皂禮盒 × ${o.soap_box_count}</span>
+              <span>$${o.soap_box_count * 20}</span>
+            </div>
+            ` : ""}
             <ul>
               ${o.items.map(i => `<li>${i.name} × ${i.qty} = $${i.price * i.qty}</li>`).join("")}
             </ul>
-            <p><strong>總金額：</strong>$${o.items.reduce((s, i) => s + i.price * i.qty, 0)}</p>
+            <p><strong>總金額：</strong>$${o.items.reduce((s, i) => s + i.price * i.qty, 0)+ (o.soap_box_count * 20)}</p>
           </div>
         `).join("");
 
@@ -588,5 +706,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 🚀 初始化
+loadCategories();
 loadProducts();
 loadCart();
+

@@ -159,20 +159,33 @@
     <label for="buyer-line">Line ID</label>
     <input type="text" id="buyer-line" placeholder="請輸入您的 Line ID" required>
   </div>
+  
+  <!-- 🔹加購肥皂盒選項 -->
+  <div class="form-group">
+    <label>是否加購佛光普皂禮盒(20元/個，可裝3~4個肥皂)</label><br>
+    <label><input type="radio" name="add-soapbox" value="yes"> 是</label>
+    <label><input type="radio" name="add-soapbox" value="no" checked> 否</label>
+  </div>
+
+  <!-- 🔹加購肥皂盒數量欄位（預設隱藏） -->
+  <div id="soapbox-qty-group" class="form-group" style="display:none;">
+    <label for="soapbox-qty">佛光普皂禮盒數量</label>
+    <input type="number" id="soapbox-qty" min="1" value="1" placeholder="請輸入加購數量">
+  </div>
 
   <!-- 🔹取貨方式 -->
   <div class="form-group">
     <label>取貨方式</label><br>
     <label><input type="radio" name="delivery" value="pickup" checked> 現場取貨</label>
-    <label><input type="radio" name="delivery" value="shipping"> 郵寄</label>
   </div>
 
   <!-- 🔹現場取貨選項 -->
   <div id="pickup-options" class="form-group">
     <label for="pickup-time">選擇取貨時間</label>
     <select id="pickup-time">
-      <option value="10-12">上午 10:00 - 12:00</option>
-      <option value="14-16">下午 14:00 - 16:00</option>
+      <option value="1230">12/30 聯合月例會</option>
+      <option value="0118">1/18 水懺法會</option>
+      <option value="0207">2/7 別院大掃除</option>
     </select>
   </div>
 
@@ -276,6 +289,20 @@
   const deliveryRadios = document.querySelectorAll('input[name="delivery"]');
   const pickupOptions = document.getElementById("pickup-options");
   const shippingInfo = document.getElementById("shipping-info");
+
+  // 🔹加購肥皂盒選項切換
+  const soapboxRadios = document.querySelectorAll('input[name="add-soapbox"]');
+  const soapboxQtyGroup = document.getElementById("soapbox-qty-group");
+
+  soapboxRadios.forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (radio.value === "yes" && radio.checked) {
+        soapboxQtyGroup.style.display = "block";
+      } else if (radio.value === "no" && radio.checked) {
+        soapboxQtyGroup.style.display = "none";
+      }
+    });
+  });
 
     deliveryRadios.forEach(radio => {
         radio.addEventListener("change", () => {
