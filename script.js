@@ -60,7 +60,7 @@ const localProducts = [
   { id: 22, name: "幸福", price: 60, stock: 10, image_url: "asset/soap/森林木質系_幸福.png" },
   { id: 23, name: "快樂", price: 60, stock: 10, image_url: "asset/soap/森林木質系_快樂.png" },
   { id: 24, name: "平安", price: 60, stock: 10, image_url: "asset/soap/森林木質系_平安竹.png" },
-  { id: 25, name: "元寶", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_元寶.jpg" },
+  { id: 25, name: "元寶", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png" },
   { id: 26, name: "福氣馬", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png" },
   { id: 27, name: "馬到成功", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png" },
   { id: 28, name: "優惠組合", price: 350, stock: 10, image_url: "asset/soap/優惠組合.png"
@@ -194,6 +194,7 @@ function showProductModal(p, stock) {
   };
 
   modal.style.display = "flex";
+  document.querySelector(".floating-buttons").style.display = "none";
   document.getElementById("modal-name").textContent = p.name;
   document.getElementById("modal-price").textContent = `價格：$${p.price}`;
   document.getElementById("modal-stock").textContent = `庫存：${stock}`;
@@ -242,11 +243,15 @@ function showProductModal(p, stock) {
   modal.querySelector(".modal-close").onclick = () => {
     modal.style.display = "none";
     qtyInput.value = 1; // 關閉時歸零
+    // 🔥 恢復 floating buttons
+    document.querySelector(".floating-buttons").style.display = "flex";
   };
 
   modal.querySelector(".modal-overlay").onclick = () => {
     modal.style.display = "none";
     qtyInput.value = 1; // 點擊背景時也歸零
+    // 🔥 恢復 floating buttons
+    document.querySelector(".floating-buttons").style.display = "flex";
   };
 }
 
