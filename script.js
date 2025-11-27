@@ -38,11 +38,11 @@ const localProducts = [
     "asset/doll/青梅竹馬.png",
   ] },
   { id: 2, name: "陶瓷馬", price: 150, stock: 12, image_url: "asset/doll/陶瓷馬.png" },
-  { id: 3, name: "流蘇白馬", price: 250, stock: 10, image_url: "asset/doll/流蘇白馬.png" },
-  { id: 4, name: "金貂福馬", price: 280, stock: 10, image_url: "asset/doll/金貂福馬.png" },
+  { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "asset/doll/流蘇白馬.png" },
+  { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "asset/doll/金貂福馬.png" },
   { id: 5, name: "竹子小紅馬", price: 120, stock: 10, image_url: "asset/doll/竹子小紅馬.png" },
-  { id: 6, name: "白色獨角獸", price: 250, stock: 10, image_url: "asset/doll/白色獨角獸.png" },
-  { id: 7, name: "粉色獨角獸", price: 200, stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
+  { id: 6, name: "白色獨角獸", price: 200, stock: 10, image_url: "asset/doll/白色獨角獸.png" },
+  { id: 7, name: "粉色獨角獸", price: 250, stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
   { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "asset/doll/馬上有錢掛件.png" },
   { id: 9, name: "長壽水豚", price: 168, stock: 10, image_url: "asset/doll/長壽水豚.png" },
   { id: 10, name: "大吉大利水豚", price: 220, stock: 10, image_url: "asset/doll/大吉大利水豚.png" },
@@ -238,6 +238,7 @@ function showProductModal(p, stock) {
     alert(`🛒 已加入購物車：${p.name} x ${qty}`);
     qtyInput.value = 1;
     modal.style.display = "none";
+    document.querySelector(".floating-buttons").style.display = "flex";
   };
 
   modal.querySelector(".modal-close").onclick = () => {
