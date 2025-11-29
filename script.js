@@ -21,16 +21,32 @@ function updateCart(id, qty) {
   saveCart(cart);
 }
 
-// ✅ 定義分類
-const categories = [
-  { id: 1, name: "駿馬系列娃娃", startId: 1, endId: 8 },
-  { id: 2, name: "卡皮巴拉系列娃娃", startId: 9, endId: 15 },
-  { id: 3, name: "佛光普皂-活力清新系", startId: 16, endId: 18 },
-  { id: 4, name: "佛光普皂-療癒花香系", startId: 19, endId: 21 },
-  { id: 5, name: "佛光普皂-森林木質系", startId: 22, endId: 24 },
-  { id: 6, name: "佛光普皂-放鬆安神系", startId: 25, endId: 27 },
-  { id: 7, name: "佛光普皂-優惠組合", startId: 28, endId: 28 },
+// ✅ 定義分組與分類（兩層）
+// 需求：顯示兩個主要群組：1. 娃娃 2. 佛光普皂，並保留子分類
+const groups = [
+  {
+    id: 'doll',
+    name: '新春娃娃',
+    categories: [
+      { id: 1, name: "駿馬系列", startId: 1, endId: 8 },
+      { id: 2, name: "卡皮巴拉系列", startId: 9, endId: 15 },
+    ]
+  },
+  {
+    id: 'soap',
+    name: '佛光普皂',
+    categories: [
+      { id: 3, name: "活力清新系", startId: 16, endId: 18 },
+      { id: 4, name: "療癒花香系", startId: 19, endId: 21 },
+      { id: 5, name: "森林木質系", startId: 22, endId: 24 },
+      { id: 6, name: "放鬆安神系", startId: 25, endId: 27 },
+      { id: 7, name: "優惠組合", startId: 28, endId: 28 },
+    ]
+  }
 ];
+
+// backwards-compatible flat list for other code that might expect `categories`
+const categories = groups.flatMap(g => g.categories);
 
 // ✅ 模擬 15 組商品資料（前端預覽模式）
 const localProducts = [
@@ -62,7 +78,7 @@ const localProducts = [
   { id: 24, name: "平安", price: 60, stock: 10, image_url: "asset/soap/森林木質系_平安竹.png" },
   { id: 25, name: "元寶", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png" },
   { id: 26, name: "福氣馬", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png" },
-  { id: 27, name: "馬到成功", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png" },
+  { id: 27, name: "馬到成功", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png", desc: "香皂為純手工製作，易有色差" },
   { id: 28, name: "優惠組合", price: 350, stock: 10, image_url: "asset/soap/優惠組合.png"
     , desc: "福氣馬、馬到成功、如意、幸福優惠組合"
    },
@@ -119,10 +135,12 @@ function createModal() {
       background: #fff;
       border-radius: 12px;
       padding: 1.5rem;
-      width: 90%;
-      max-width: 400px;
+      width: 100vh;   /* 螢幕寬度 100% */
+      height: 80vh;  /* 螢幕高度 80% */
+      max-width: 300px;
       text-align: center;
       z-index: 1000;
+      overflow-y: auto;
     }
     .modal-image-wrapper {
       position: relative;
@@ -148,16 +166,35 @@ function createModal() {
     }
     .prev-btn { left: 10px; }
     .next-btn { right: 10px; }
+    // .modal-close {
+    //   position: absolute;
+    //   top: 10px;
+    //   right: 10px;
+    //   background: none;
+    //   border: none;
+    //   font-size: 1rem;
+    //   cursor: pointer;
+    //   color: #ff9fb3;
+    //   z-index: 2000; /* ✅ 確保在最上層 */
+    // }
     .modal-close {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: none;
+      background: #ff8fa3 !important;
+      color: white !important;
       border: none;
-      font-size: 1rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
       cursor: pointer;
-      color: #333;
+      font-size: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s ease;
       z-index: 2000; /* ✅ 確保在最上層 */
+    }
+
+    .modal-close:hover {
+      background: #ff748c !important;
     }
   `;
   document.head.appendChild(style);
@@ -261,9 +298,15 @@ function loadCategories() {
   const linksContainer = document.getElementById("category-links");
   if (!linksContainer) return;
 
-  linksContainer.innerHTML = categories.map(cat =>
-    `<a class="category-link" href="#cat-${cat.id}">${cat.name}</a>`
-  ).join(' ');
+  // Render top-level groups with their subcategory links
+  linksContainer.innerHTML = groups.map(g => `
+    <div class="group-links">
+      <span class="group-title">${g.name}</span>
+      <div class="sub-links">
+        ${g.categories.map(cat => `<a class="category-link" href="#cat-${cat.id}">${cat.name}</a>`).join(' ')}
+      </div>
+    </div>
+  `).join('\n');
 }
 
 async function loadProducts() {
@@ -274,7 +317,15 @@ async function loadProducts() {
   container.innerHTML = "";
 
   // ==== 先顯示所有商品，但 stock 顯示讀取中 ====
-  categories.forEach(category => {
+  // Render each group first, then its categories and products
+  groups.forEach(group => {
+
+    const groupTitle = document.createElement("h1");
+    groupTitle.textContent = group.name;
+    groupTitle.className = 'group-title';
+    container.appendChild(groupTitle);
+
+    group.categories.forEach(category => {
 
     const title = document.createElement("h2");
     title.textContent = category.name;
@@ -352,7 +403,8 @@ async function loadProducts() {
   });
 
 
-    container.appendChild(categoryContainer);
+      container.appendChild(categoryContainer);
+    });
   });
 
   // ==== 後端資料回來後更新庫存 ====

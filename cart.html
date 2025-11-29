@@ -183,12 +183,12 @@
   <div id="pickup-options" class="form-group">
     <label for="pickup-time">選擇取貨時間</label>
     <select id="pickup-time">
-      <option value="1230">12/30 聯合月例會</option>
-      <option value="0118">1/18 水懺法會</option>
-      <option value="0207">2/7 別院大掃除</option>
+      <option value="1230">12/30 聯合月例會 19:00~21:00</option>
+      <option value="0118">1/18 水懺法會 13:00~15:00</option>
+      <option value="0207">2/7 別院大掃除 09:00~12:00</option>
     </select>
     <span style="font-size: smaller;">
-      取貨地點：蘭陽別院二樓行政辦公室(取貨同時現金付款)
+      取貨地點：蘭陽別院二樓青年團辦公室(取貨同時現金付款)
     </span>
   </div>
 
@@ -222,8 +222,24 @@
   <script>
     // 🧮 改寫購物車內容顯示
     document.addEventListener("DOMContentLoaded", () => {
-            renderCart();
+      renderCart();
+
+      const isEligible = checkSoapboxEligibility();
+
+      const addSoapboxGroup = document.querySelector('label[for="soapbox-qty"]')?.closest('.form-group');
+      const addSoapboxRadioGroup = document.querySelector('input[name="add-soapbox"]')?.closest('.form-group');
+      const soapboxQtyGroup = document.getElementById("soapbox-qty-group");
+
+      // 若購物車沒有id 16~28 → 全部隱藏
+      if (!isEligible) {
+        if (addSoapboxRadioGroup) addSoapboxRadioGroup.style.display = "none";
+        if (soapboxQtyGroup) soapboxQtyGroup.style.display = "none";
+      } else {
+        // 有符合條件 → 顯示加購選項，數量欄位由 radio 控制
+        if (addSoapboxRadioGroup) addSoapboxRadioGroup.style.display = "block";
+      }
     });
+
 
     function renderCart() {
       const cartEl = document.getElementById("cart");
@@ -319,6 +335,12 @@
         });
       });
     });
+
+    function checkSoapboxEligibility() {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      // 檢查是否有商品 id 16~28
+      return cart.some(item => item.id >= 16 && item.id <= 28);
+    }
 
   </script>
 </body>

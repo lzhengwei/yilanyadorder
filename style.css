@@ -79,11 +79,25 @@ body {
   margin-top: 1rem;
 }
 
+.group-title {
+  /* reduce bottom spacing so category-title sits closer */
+  margin: 8px 0 6px;
+  color: #580000;
+  font-weight: bold;
+  padding-left: 1px;
+}
+
 .category-title {
   font-size: 1.5rem;
-  margin: 10px 0 15px;
+  /* reduce top spacing so it sits closer to group-title */
+  margin: 4px 0 12px;
   font-weight: bold;
   padding-left: 5px;
+}
+
+/* tighten layout specifically when a category title immediately follows a group title */
+.group-title + .category-title {
+  margin-top: 4px; /* explicit small gap when adjacent */
 }
 
 .category-container {
