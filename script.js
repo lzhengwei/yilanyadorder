@@ -53,33 +53,33 @@ const localProducts = [
   { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [
     "asset/doll/青梅竹馬.png",
   ] },
-  { id: 2, name: "陶瓷馬", price: 150, stock: 12, image_url: "asset/doll/陶瓷馬.png" },
-  { id: 3, name: "流蘇白馬", price: 280, stock: 10, image_url: "asset/doll/流蘇白馬.png" },
-  { id: 4, name: "金貂福馬", price: 250, stock: 10, image_url: "asset/doll/金貂福馬.png" },
-  { id: 5, name: "竹子小紅馬", price: 120, stock: 10, image_url: "asset/doll/竹子小紅馬.png" },
-  { id: 6, name: "白色獨角獸", price: 200, stock: 10, image_url: "asset/doll/白色獨角獸.png" },
-  { id: 7, name: "粉色獨角獸", price: 250, stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
-  { id: 8, name: "馬上有錢掛件", price: 120, stock: 10, image_url: "asset/doll/馬上有錢掛件.png" },
-  { id: 9, name: "長壽水豚", price: 168, stock: 10, image_url: "asset/doll/長壽水豚.png" },
-  { id: 10, name: "大吉大利水豚", price: 220, stock: 10, image_url: "asset/doll/大吉大利水豚.png" },
-  { id: 11, name: "發心水豚", price: 220, stock: 10, image_url: "asset/doll/發心水豚.png" },
-  { id: 12, name: "夏威夷水豚", price: 350, stock: 10, image_url: "asset/doll/夏威夷水豚.png" },
-  { id: 13, name: "游泳健將水豚", price: 350, stock: 10, image_url: "asset/doll/游泳健將水豚.png" },
-  { id: 14, name: "粉系水豚", price: 350, stock: 10, image_url: "asset/doll/粉系水豚.png" },
-  { id: 15, name: "牛油果水豚組合", price: 500, stock: 10, image_url: "asset/doll/牛油果水豚組合.jpg" },
-  { id: 16, name: "恭喜發財", price: 50, stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png" },
-  { id: 17, name: "招財進寶", price: 50, stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png" },
-  { id: 18, name: "福字", price: 50, stock: 20, image_url: "asset/soap/活力清新系_福字.png" },
-  { id: 19, name: "吉祥", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_吉祥.png" },
-  { id: 20, name: "如意", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_如意.png" },
-  { id: 21, name: "太陽花", price: 60, stock: 10, image_url: "asset/soap/療癒花香系_花.png" },
-  { id: 22, name: "幸福", price: 60, stock: 10, image_url: "asset/soap/森林木質系_幸福.png" },
-  { id: 23, name: "快樂", price: 60, stock: 10, image_url: "asset/soap/森林木質系_快樂.png" },
-  { id: 24, name: "平安", price: 60, stock: 10, image_url: "asset/soap/森林木質系_平安竹.png" },
-  { id: 25, name: "元寶", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png" },
-  { id: 26, name: "福氣馬", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png" },
-  { id: 27, name: "馬到成功", price: 100, stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 28, name: "優惠組合", price: 350, stock: 10, image_url: "asset/soap/優惠組合.png"
+  { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png" },
+  { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png" },
+  { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png" },
+  { id: 5, name: "竹子小紅馬",      price: 120,   stock: 10, image_url: "asset/doll/竹子小紅馬.png" },
+  { id: 6, name: "白色獨角獸",      price: 200,   stock: 10, image_url: "asset/doll/白色獨角獸.png" },
+  { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
+  { id: 8, name: "馬上有錢掛件",    price: 120,   stock: 10, image_url: "asset/doll/馬上有錢掛件.png" },
+  { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png" },
+  { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: "asset/doll/大吉大利水豚.png" },
+  { id: 11, name: "發心水豚",       price: 220,   stock: 10, image_url: "asset/doll/發心水豚.png" },
+  { id: 12, name: "夏威夷水豚",     price: 350,   stock: 10, image_url: "asset/doll/夏威夷水豚.png" },
+  { id: 13, name: "游泳健將水豚",   price: 350,   stock: 10, image_url: "asset/doll/游泳健將水豚.png" },
+  { id: 14, name: "粉系水豚",       price: 350,   stock: 10, image_url: "asset/doll/粉系水豚.png" },
+  { id: 15, name: "牛油果水豚組合", price: 500,   stock: 10, image_url: "asset/doll/牛油果水豚組合.png" },
+  { id: 16, name: "恭喜發財",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 17, name: "招財進寶",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 18, name: "福字",           price: 50,    stock: 20, image_url: "asset/soap/活力清新系_福字.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 19, name: "吉祥",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_吉祥.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 20, name: "如意",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_如意.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 21, name: "太陽花",         price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_花.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 22, name: "幸福",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_幸福.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 23, name: "快樂",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_快樂.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 24, name: "平安",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_平安竹.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 25, name: "元寶",           price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 26, name: "福氣馬",         price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 27, name: "馬到成功",       price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 28, name: "優惠組合",       price: 300,   stock: 10, image_url: "asset/soap/優惠組合.png"
     , desc: "福氣馬、馬到成功、如意、幸福優惠組合"
    },
 ];
@@ -166,17 +166,6 @@ function createModal() {
     }
     .prev-btn { left: 10px; }
     .next-btn { right: 10px; }
-    // .modal-close {
-    //   position: absolute;
-    //   top: 10px;
-    //   right: 10px;
-    //   background: none;
-    //   border: none;
-    //   font-size: 1rem;
-    //   cursor: pointer;
-    //   color: #ff9fb3;
-    //   z-index: 2000; /* ✅ 確保在最上層 */
-    // }
     .modal-close {
       position: absolute;
       top: 10px;
