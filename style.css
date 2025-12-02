@@ -38,6 +38,32 @@ body {
   justify-content: space-between;
 }
 
+/* Header subtitle: smaller, slightly offset and responsive */
+.header-main h1 { margin: 0; font-size: 1.35rem; line-height: 1.15; }
+.header-subtitle {
+  font-size: 0.7rem;          /* make subtitle smaller */
+  color: #666;               /* slightly muted color */
+  max-width: 55%;            /* avoid spanning the whole header */
+  line-height: 1.4;          /* comfortable reading spacing */
+  margin-top: 0.15rem;       /* put it closer to the title */
+  transform: translateY(2px);/* tiny downward nudge for balance */
+}
+
+/* On small screens stack header content vertically for readability */
+@media (max-width: 720px) {
+  .header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .header-subtitle {
+    max-width: 100%;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
+  .promo-badge { align-self: flex-end; margin-top: 0.2rem; }
+}
+
 /* 顯示在頁首的醒目促銷徽章 */
 .promo-badge {
   background: linear-gradient(90deg, #ff5f6d, #ffc371);
@@ -281,7 +307,7 @@ button:disabled {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
@@ -292,7 +318,7 @@ button:disabled {
   color: white;
   border-radius: 50px;
   padding: 12px 18px;
-  font-size: 16px;
+  font-size: 12px;
   text-decoration: none;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
@@ -328,4 +354,33 @@ button:disabled {
   width: 80%;
   padding: 8px;
   margin-bottom: 10px;
+}
+
+.product-image-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-image-wrapper img {
+  width: 100%;
+  border-radius: 10px;
+}
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.card-desc {
+  font-size: 0.8rem;
 }

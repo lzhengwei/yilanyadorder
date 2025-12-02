@@ -31,6 +31,7 @@ const groups = [
   {
     id: 'doll',
     name: '新春娃娃',
+    desc: '',
     categories: [
       { id: 1, name: "駿馬系列", startId: 1, endId: 8 },
       { id: 2, name: "卡皮巴拉系列", startId: 9, endId: 15 },
@@ -39,12 +40,13 @@ const groups = [
   {
     id: 'soap',
     name: '佛光普皂',
+    desc: '手工製作香皂系列，易有色差。所有香皂皆供於佛前加持。',
     categories: [
-      { id: 3, name: "活力清新系", startId: 16, endId: 18 },
-      { id: 4, name: "療癒花香系", startId: 19, endId: 21 },
-      { id: 5, name: "森林木質系", startId: 22, endId: 24 },
-      { id: 6, name: "放鬆安神系", startId: 25, endId: 27 },
-      { id: 7, name: "優惠組合", startId: 28, endId: 28 },
+      { id: 3, name: "活力清新系", startId: 16, endId: 18, desc: '芳香: 葡萄柚、馬鞭草' },
+      { id: 4, name: "療癒花香系", startId: 19, endId: 21, desc: '芳香: 薰衣草、茶樹' },
+      { id: 5, name: "森林木質系", startId: 22, endId: 24, desc: '芳香: 檜木、檀香、雪松' },
+      { id: 6, name: "放鬆安神系", startId: 25, endId: 27, desc: '芳香: 佛手柑、甜橙' },
+      { id: 7, name: "優惠組合", startId: 28, endId: 28, desc: '' },
     ]
   }
 ];
@@ -56,7 +58,7 @@ const categories = groups.flatMap(g => g.categories);
 const localProducts = [
   { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [
     "asset/doll/青梅竹馬.png",
-  ] },
+  ], desc: "尺寸:18cm" },
   { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png", desc: "尺寸:18cm" },
   { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png", desc: "尺寸:25cm" },
   { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
@@ -65,26 +67,26 @@ const localProducts = [
   { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png", desc: "尺寸:22cm" },
   { id: 8, name: "馬上有錢掛件",    price: 120,   stock: 10, image_url: "asset/doll/馬上有錢掛件.png", desc: "吊飾" },
   { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png", desc: "尺寸:18cm" },
-  { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: "asset/doll/大吉大利水豚.png", desc: "尺寸:25cm" },
+  { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: ["asset/doll/大吉大利水豚.png", "asset/doll/大吉大利水豚_2.png"], desc: "尺寸:25cm" },
   { id: 11, name: "發心水豚",       price: 220,   stock: 10, image_url: "asset/doll/發心水豚.png", desc: "尺寸:25cm" },
   { id: 12, name: "夏威夷水豚",     price: 350,   stock: 10, image_url: "asset/doll/夏威夷水豚.png", desc: "尺寸:35cm" },
   { id: 13, name: "游泳健將水豚",   price: 350,   stock: 10, image_url: "asset/doll/游泳健將水豚.png", desc: "尺寸:35cm" },
   { id: 14, name: "粉系水豚",       price: 350,   stock: 10, image_url: "asset/doll/粉系水豚.png", desc: "尺寸:35cm" },
   { id: 15, name: "牛油果水豚組合", price: 500,   stock: 10, image_url: "asset/doll/牛油果水豚組合.png", desc: "尺寸:35cm" },
-  { id: 16, name: "恭喜發財",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 17, name: "招財進寶",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 18, name: "福字",           price: 50,    stock: 20, image_url: "asset/soap/活力清新系_福字.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 19, name: "吉祥",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_吉祥.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 20, name: "如意",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_如意.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 21, name: "太陽花",         price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_花.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 22, name: "幸福",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_幸福.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 23, name: "快樂",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_快樂.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 24, name: "平安",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_平安竹.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 25, name: "元寶",           price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 26, name: "福氣馬",         price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png", desc: "香皂為純手工製作，易有色差" },
-  { id: 27, name: "馬到成功",       price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png", desc: "香皂為純手工製作，易有色差" },
+  { id: 16, name: "恭喜發財",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png"},
+  { id: 17, name: "招財進寶",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png"},
+  { id: 18, name: "福字",           price: 50,    stock: 20, image_url: "asset/soap/活力清新系_福字.png"},
+  { id: 19, name: "吉祥",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_吉祥.png"},
+  { id: 20, name: "如意",           price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_如意.png"},
+  { id: 21, name: "太陽花",         price: 60,    stock: 10, image_url: "asset/soap/療癒花香系_花.png"},
+  { id: 22, name: "幸福",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_幸福.png"},
+  { id: 23, name: "快樂",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_快樂.png"},
+  { id: 24, name: "平安",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_平安竹.png"},
+  { id: 25, name: "元寶",           price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png"},
+  { id: 26, name: "福氣馬",         price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png"},
+  { id: 27, name: "馬到成功",       price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png"},
   { id: 28, name: "優惠組合",       price: 300,   stock: 10, image_url: "asset/soap/優惠組合.png"
-    , desc: "福氣馬、馬到成功、如意、幸福優惠組合"
+    , desc: "元寶、馬到成功、如意、幸福優惠組合"
    },
 ];
 
@@ -198,6 +200,22 @@ function createModal() {
       margin-top: 0.5rem;
       text-align: center;
       word-break: break-word;
+    }
+    /* group / category descriptions */
+    .group-desc, .category-desc {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 1px 0 1px 0;
+      line-height: 1.25;
+      max-width: 100%;
+    }
+    .category-desc { font-size: 0.85rem; }
+    /* description text shown next to links in the top navigation */
+    .category-link-desc {
+      display: inline-block;
+      margin-left: 6px;
+      font-size: 0.75rem;
+      color: #888;
     }
   `;
   document.head.appendChild(style);
@@ -332,6 +350,12 @@ async function loadProducts() {
     groupTitle.textContent = group.name;
     groupTitle.className = 'group-title';
     container.appendChild(groupTitle);
+    if (group.desc) {
+      const gd = document.createElement('p');
+      gd.className = 'group-desc';
+      gd.textContent = group.desc;
+      container.appendChild(gd);
+    }
 
     group.categories.forEach(category => {
 
@@ -341,6 +365,12 @@ async function loadProducts() {
     title.id = `cat-${category.id}`;
     title.className = "category-title";
     container.appendChild(title);
+    if (category.desc) {
+      const cd = document.createElement('p');
+      cd.className = 'category-desc';
+      cd.textContent = category.desc;
+      container.appendChild(cd);
+    }
 
     const categoryContainer = document.createElement("div");
     categoryContainer.className = "category-container";
@@ -355,13 +385,17 @@ async function loadProducts() {
   div.dataset.id = p.id;
 
   div.innerHTML = `
-    ${SALE_ACTIVE ? `<div class="sale-badge">限時9折</div>` : ''}
-    <img src="${Array.isArray(p.image_url) ? p.image_url[0] : p.image_url}" alt="${p.name}">
+    <div class="product-image-wrapper">
+      <button class="prev-btn">⟨</button>
+      <img class="product-card-image" src="${Array.isArray(p.image_url) ? p.image_url[0] : p.image_url}" alt="${p.name}">
+      <button class="next-btn">⟩</button>
+    </div>
+        ${SALE_ACTIVE ? `<div class="sale-badge">限時9折</div>` : ''}
     <h3>${p.name}</h3>
     <p class="price">${SALE_ACTIVE ? `<span class="orig">$${p.price}</span> <span class="discount-price">$${Math.round(p.price * DISCOUNT_RATE)}</span>` : `$${p.price}`}</p>
 
     <p class="stock">讀取中...</p>
-
+    <p class="card-desc">${p.desc || ""}</p>
     <div class="quantity-selector">
       <button class="decrease" disabled>−</button>
       <input type="number" value="0" min="0" disabled />
@@ -370,32 +404,59 @@ async function loadProducts() {
 
     <button class="add-to-cart" disabled>加入購物車</button>
   `;
+    // per-product input reference (was using document.querySelector which picked the first page input)
+    const qtyInput = div.querySelector('input');
 
-    // 🔥 原本：只給商品卡片整體觸發
-    div.addEventListener("click", (e) => {
-      if (e.target.classList.contains("decrease")) return;
-      if (e.target.classList.contains("increase")) return;
-      if (e.target.classList.contains("add-to-cart")) return;
-      if (e.target.tagName === 'INPUT') return;
+    // === per-product image carousel handling ===
+    // support image_url as string or array and provide prev/next for each card
+    const images = Array.isArray(p.image_url) ? p.image_url : [p.image_url];
+    let currentIndex = 0;
+    const cardImg = div.querySelector('.product-card-image');
+    const prevBtn = div.querySelector('.prev-btn');
+    const nextBtn = div.querySelector('.next-btn');
 
-      const latestStock = Number(div.dataset.stock);
-      showProductModal(p, latestStock);
+    function updateImage() {
+      if (!cardImg) return;
+      cardImg.src = images[currentIndex] || '';
+      // hide nav if only one image
+      if (images.length > 1) {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      }
+    }
+
+    // init image & controls
+    updateImage();
+
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateImage();
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      updateImage();
     });
 
     // 🔥 為 decrease 增加事件
     div.querySelector(".decrease").addEventListener("click", (e) => {
-      e.stopPropagation();  // 不要讓事件被 div 處理
-      // ↓↓↓ 原本 decrease 的功能（如果你之後有）↓↓↓
-      // ...
+      e.stopPropagation(); // prevent bubbling to div click
+      if (Number(qtyInput.value) > 0) qtyInput.value = Number(qtyInput.value) - 1;
 
-      // 🔥 點完還是開 modal
+      // 點完後仍然開 modal（保留原本行為）
       div.click();
     });
 
     // 🔥 為 increase 增加事件
     div.querySelector(".increase").addEventListener("click", (e) => {
       e.stopPropagation();
-      // ...
+      const max = Number(div.dataset.stock) || p.stock;
+      if (Number(qtyInput.value) < max) qtyInput.value = Number(qtyInput.value) + 1;
 
       div.click(); // 同樣開 modal
     });
@@ -403,12 +464,23 @@ async function loadProducts() {
     // 🔥 為 add-to-cart 增加事件
     div.querySelector(".add-to-cart").addEventListener("click", (e) => {
       e.stopPropagation();
-      // ...
-
-      div.click(); // 同樣開 modal
+      const qty = parseInt(qtyInput.value);
+      if (qty > p.stock) {
+        alert(`⚠️ 數量超過庫存，最多只能買 ${p.stock} 件`);
+        return;
+      }
+      if (p.stock <= 0) {
+        alert(`⚠️ 商品已售完，無法加入購物車`);
+        return;
+      }
+      updateCart(p.id, qty);
+      alert(`🛒 已加入購物車：${p.name} x ${qty}`);
+      qtyInput.value = 0;
+      div.click();
     });
 
     categoryContainer.appendChild(div);
+    // === 點擊商品卡片開啟商品詳細浮窗 ===
   });
 
 
