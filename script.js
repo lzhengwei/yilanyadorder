@@ -1,5 +1,9 @@
 const API_BASE = "https://yilanyadorder-backend.onrender.com/api";
 
+// === 全站促銷設定（僅前端顯示）
+const SALE_ACTIVE = true; // 將此改為 false 可暫時關閉顯示
+const DISCOUNT_RATE = 0.9; // 9 折
+
 // 🛒 儲存購物車至 localStorage
 function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -53,20 +57,20 @@ const localProducts = [
   { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [
     "asset/doll/青梅竹馬.png",
   ] },
-  { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png" },
-  { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png" },
-  { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png" },
-  { id: 5, name: "竹子小紅馬",      price: 120,   stock: 10, image_url: "asset/doll/竹子小紅馬.png" },
-  { id: 6, name: "白色獨角獸",      price: 200,   stock: 10, image_url: "asset/doll/白色獨角獸.png" },
-  { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png" },
-  { id: 8, name: "馬上有錢掛件",    price: 120,   stock: 10, image_url: "asset/doll/馬上有錢掛件.png" },
-  { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png" },
-  { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: "asset/doll/大吉大利水豚.png" },
-  { id: 11, name: "發心水豚",       price: 220,   stock: 10, image_url: "asset/doll/發心水豚.png" },
-  { id: 12, name: "夏威夷水豚",     price: 350,   stock: 10, image_url: "asset/doll/夏威夷水豚.png" },
-  { id: 13, name: "游泳健將水豚",   price: 350,   stock: 10, image_url: "asset/doll/游泳健將水豚.png" },
-  { id: 14, name: "粉系水豚",       price: 350,   stock: 10, image_url: "asset/doll/粉系水豚.png" },
-  { id: 15, name: "牛油果水豚組合", price: 500,   stock: 10, image_url: "asset/doll/牛油果水豚組合.png" },
+  { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png", desc: "尺寸:18cm" },
+  { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png", desc: "尺寸:25cm" },
+  { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
+  { id: 5, name: "竹子小紅馬",      price: 120,   stock: 10, image_url: "asset/doll/竹子小紅馬.png", desc: "尺寸:12cm" },
+  { id: 6, name: "白色獨角獸",      price: 200,   stock: 10, image_url: "asset/doll/白色獨角獸.png", desc: "尺寸:14cm" },
+  { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png", desc: "尺寸:22cm" },
+  { id: 8, name: "馬上有錢掛件",    price: 120,   stock: 10, image_url: "asset/doll/馬上有錢掛件.png", desc: "吊飾" },
+  { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png", desc: "尺寸:18cm" },
+  { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: "asset/doll/大吉大利水豚.png", desc: "尺寸:25cm" },
+  { id: 11, name: "發心水豚",       price: 220,   stock: 10, image_url: "asset/doll/發心水豚.png", desc: "尺寸:25cm" },
+  { id: 12, name: "夏威夷水豚",     price: 350,   stock: 10, image_url: "asset/doll/夏威夷水豚.png", desc: "尺寸:35cm" },
+  { id: 13, name: "游泳健將水豚",   price: 350,   stock: 10, image_url: "asset/doll/游泳健將水豚.png", desc: "尺寸:35cm" },
+  { id: 14, name: "粉系水豚",       price: 350,   stock: 10, image_url: "asset/doll/粉系水豚.png", desc: "尺寸:35cm" },
+  { id: 15, name: "牛油果水豚組合", price: 500,   stock: 10, image_url: "asset/doll/牛油果水豚組合.png", desc: "尺寸:35cm" },
   { id: 16, name: "恭喜發財",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_恭喜發財.png", desc: "香皂為純手工製作，易有色差" },
   { id: 17, name: "招財進寶",       price: 50,    stock: 20, image_url: "asset/soap/活力清新系_招財進寶.png", desc: "香皂為純手工製作，易有色差" },
   { id: 18, name: "福字",           price: 50,    stock: 20, image_url: "asset/soap/活力清新系_福字.png", desc: "香皂為純手工製作，易有色差" },
@@ -185,6 +189,16 @@ function createModal() {
     .modal-close:hover {
       background: #ff748c !important;
     }
+
+    /* make product description smaller and easier to read */
+    #product-modal .modal-content #modal-desc {
+      font-size: 0.8rem;
+      color: #555;
+      line-height: 1.3;
+      margin-top: 0.5rem;
+      text-align: center;
+      word-break: break-word;
+    }
   `;
   document.head.appendChild(style);
 }
@@ -222,8 +236,13 @@ function showProductModal(p, stock) {
   modal.style.display = "flex";
   document.querySelector(".floating-buttons").style.display = "none";
   document.getElementById("modal-name").textContent = p.name;
-  document.getElementById("modal-price").textContent = `價格：$${p.price}`;
-  document.getElementById("modal-stock").textContent = `庫存：${stock}`;
+  // 顯示原價與折扣價（若促銷啟用）
+  if (SALE_ACTIVE) {
+    document.getElementById("modal-price").innerHTML = `價格： <span class="orig">$${p.price}</span> <span class="discount-price">$${Math.round(p.price * DISCOUNT_RATE)}</span>`;
+  } else {
+    document.getElementById("modal-price").textContent = `價格：$${p.price}`;
+  }
+  document.getElementById("modal-stock").textContent = `剩餘：${stock}`;
   document.getElementById("modal-desc").textContent = p.desc || "";
 
   const qtyInput = document.getElementById("modal-qty");
@@ -336,9 +355,10 @@ async function loadProducts() {
   div.dataset.id = p.id;
 
   div.innerHTML = `
+    ${SALE_ACTIVE ? `<div class="sale-badge">限時9折</div>` : ''}
     <img src="${Array.isArray(p.image_url) ? p.image_url[0] : p.image_url}" alt="${p.name}">
     <h3>${p.name}</h3>
-    <p>$${p.price}</p>
+    <p class="price">${SALE_ACTIVE ? `<span class="orig">$${p.price}</span> <span class="discount-price">$${Math.round(p.price * DISCOUNT_RATE)}</span>` : `$${p.price}`}</p>
 
     <p class="stock">讀取中...</p>
 

@@ -29,6 +29,35 @@ body {
   margin-right: 1rem;
 }
 
+/* Header layout wrapper to place badge */
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* 顯示在頁首的醒目促銷徽章 */
+.promo-badge {
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+  color: #fff;
+  padding: .6rem .9rem;
+  border-radius: 999px;
+  font-weight: 900;
+  box-shadow: 0 6px 18px rgba(255,95,109,0.18), inset 0 -4px 8px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+  animation: pulse 2.2s infinite ease-in-out;
+  border: 2px solid rgba(255,255,255,0.25);
+  font-size: 0.95rem;
+}
+
+@keyframes pulse {
+  0% { transform: translateY(-2px) scale(1); }
+  60% { transform: translateY(-2px) scale(1.04); }
+  100% { transform: translateY(-2px) scale(1); }
+}
+
 /* === 分類快速連結（頂部）=== */
 .category-links {
   display: flex;
@@ -124,6 +153,32 @@ body {
   width: 100%;
   border-radius: 8px;
 }
+
+/* 商品卡片上的促銷徽章 */
+.product .sale-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: linear-gradient(90deg,#ff4d6d,#ffbe33);
+  color: #fff;
+  padding: 0.35rem 0.6rem;
+  font-weight: 800;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+/* 在 product 卡片上定位相對容器 */
+.product { position: relative; }
+
+/* 價格顯示：原價刪除線 + 折扣價醒目 */
+.product .price { margin: .35rem 0; display: flex; gap: .5rem; align-items: baseline; }
+.product .price .orig { color: #888; text-decoration: line-through; font-size: 0.95rem; }
+.product .price .discount-price { color: #c81b3b; font-weight: 800; font-size: 1.05rem; background: linear-gradient(90deg,#fff2f3,#ffecec); padding: .1rem .45rem; border-radius: 6px; }
+
+/* Modal 中價格也顯示折扣價 */
+.modal-content #modal-price .orig { text-decoration: line-through; color: #888; margin-right: .6rem; }
+.modal-content #modal-price .discount-price { color: #c81b3b; font-weight: 900; }
 
 .quantity-selector {
   display: flex;

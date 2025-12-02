@@ -132,6 +132,9 @@
       color: #333;
       display: none;
     }
+    /* 折扣標示（原價 / 折扣價） */
+    .orig { color: #888; text-decoration: line-through; margin-right: 0.5rem; }
+    .discount-price { color: #c81b3b; font-weight: 800; }
   </style>
 </head>
 <body>
@@ -256,7 +259,11 @@
       cartEl.innerHTML = cart.map(c => {
         const p = localProducts.find(p => p.id === c.id);
         if (!p) return "";
-        const subtotal = p.price * c.qty;
+        // 支援全站或全域變數（來自 script.js）或使用 fallback
+        const saleActive = (typeof SALE_ACTIVE !== 'undefined') ? SALE_ACTIVE : false;
+        const discountRate = (typeof DISCOUNT_RATE !== 'undefined') ? DISCOUNT_RATE : 1;
+        const unitPrice = saleActive ? Math.round(p.price * discountRate) : p.price;
+        const subtotal = unitPrice * c.qty;
         total += subtotal;
         return `
           <div class="cart-item">
@@ -267,7 +274,9 @@
               <p>數量：${c.qty}</p>
             </div>
             <div class="cart-price">
-              <p>$${p.price} / 件</p>
+              ${saleActive ? `
+                <p><span class="orig">$${p.price} / 件</span> <span class="discount-price">$${unitPrice} / 件</span></p>
+              ` : `<p>$${p.price} / 件</p>` }
               <strong>小計：$${subtotal}</strong>
             </div>
           </div>
