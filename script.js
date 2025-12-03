@@ -40,7 +40,7 @@ const groups = [
   {
     id: 'soap',
     name: '佛光普皂',
-    desc: '手工製作香皂系列，易有色差。所有香皂皆供於佛前加持。',
+    desc: '香皂皆為手工製作，顏色可能略有差異。所有香皂皆已於佛前供氧加持。香皂僅適用於洗手，請勿用於臉部清潔。',
     categories: [
       { id: 3, name: "活力清新系", startId: 16, endId: 18, desc: '芳香: 葡萄柚、馬鞭草' },
       { id: 4, name: "療癒花香系", startId: 19, endId: 21, desc: '芳香: 薰衣草、茶樹' },
