@@ -103,7 +103,7 @@ body {
 .category-link {
   display: inline-block;
   padding: 0.45rem 0.9rem;
-  background: #fff7f8;
+  background: #ffd8dd;
   color: #c83b58;
   text-decoration: none;
   border-radius: 999px;
@@ -383,4 +383,121 @@ button:disabled {
 
 .card-desc {
   font-size: 0.8rem;
+}
+
+/* ===== 聯繫我們 Modal 美化 ===== */
+
+.contact-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+  text-align: center;
+}
+
+.contact-modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 18px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  position: relative;
+  animation: fadeInUp 0.25s ease;
+}
+
+/* 顯示動畫 */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 關閉按鈕 */
+.contact-close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  background: #ff8fa3;
+  border: none;
+  color: white;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.contact-close:hover {
+  background: #ff6d8a;
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* 聯絡方式區塊 */
+.contact-info {
+  background: #f8f8f8;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* 表單 */
+.contact-form label {
+  font-weight: 600;
+  margin: 0.4rem 0 0.2rem;
+  display: block;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 0.7rem;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border 0.2s;
+  background: #fafafa;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #ff8fa3;
+  background: #fff;
+}
+
+.contact-form textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* 按鈕 */
+.contact-send-btn {
+  width: 100%;
+  background: #ff8fa3;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: 0.2s;
+}
+
+.contact-send-btn:hover {
+  background: #ff6d8a;
 }

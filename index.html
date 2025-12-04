@@ -45,16 +45,37 @@
   </div>
 
   <!-- 📞 聯繫我們浮窗 -->
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>📞 聯繫我們</h3>
+<div id="contactModal" class="modal contact-modal">
+  <div class="contact-modal-content">
+    <button class="contact-close">✖</button>
+
+    <h2 class="contact-title">📞 聯繫我們</h2>
+
+    <div class="contact-info">
       <p><strong>聯絡人：</strong> 羅佑坤</p>
       <p><strong>電話：</strong> 0980-548-458</p>
       <p><strong>Email：</strong> a0931550950@gmail.com</p>
       <p><strong>LINE ID：</strong> shiki1121</p>
     </div>
+
+    <div class="contact-form">
+      <h2 class="contact-title">留言給我們</h2>
+      <label>您的名字：</label>
+      <input id="msg-name" type="text" placeholder="請輸入姓名">
+
+      <label>您的電話：</label>
+      <input id="msg-phone" type="text" placeholder="請輸入電話">
+
+      <label>您的line ID：</label>
+      <input id="msg-line" type="text" placeholder="請輸入line ID">
+
+      <label>留言內容：</label>
+      <textarea id="msg-content" placeholder="請輸入留言"></textarea>
+
+      <button id="sendMessageBtn" class="contact-send-btn">送出留言</button>
+    </div>
   </div>
+</div>
 
   <script src="script.js"></script>
 </body>

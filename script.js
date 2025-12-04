@@ -844,6 +844,71 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// === 聯繫我們留言送出（寫入後端） ===
+document.addEventListener("DOMContentLoaded", () => {
+  const sendBtn = document.getElementById("sendMessageBtn");
+  if (!sendBtn) return;
+
+  sendBtn.addEventListener("click", async () => {
+    const name = document.getElementById("msg-name").value.trim();
+    const phone = document.getElementById("msg-phone").value.trim();
+    const lineid = document.getElementById("msg-line").value.trim();
+    const content = document.getElementById("msg-content").value.trim();
+
+    if (!name || !phone || !lineid || !content) {
+      alert("⚠️ 請完整填寫所有欄位！");
+      return;
+    }
+
+    const payload = { name, phone, lineid, content };
+
+    try {
+      const res = await fetch(`${API_BASE}/message`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+      }
+
+      alert("🎉 您的留言已成功送出！我們會盡快回覆您！");
+      document.getElementById("contactModal").style.display = "none";
+
+      // 清空欄位
+      document.getElementById("msg-name").value = "";
+      document.getElementById("msg-phone").value = "";
+      document.getElementById("msg-line").value = "";
+      document.getElementById("msg-content").value = "";
+      
+    } catch (err) {
+      alert("❌ 無法傳送留言：" + err.message);
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const contactModal = document.getElementById("contactModal");
+  const contactBtn = document.getElementById("contactBtn");
+  const closeBtn = document.querySelector(".contact-close");
+
+  contactBtn?.addEventListener("click", () => {
+    contactModal.style.display = "flex";
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    contactModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === contactModal) {
+      contactModal.style.display = "none";
+    }
+  });
+});
+
 // 🚀 初始化
 loadCategories();
 loadProducts();
