@@ -1,7 +1,7 @@
 const API_BASE = "https://yilanyadorder-backend.onrender.com/api";
 
 // === 全站促銷設定（僅前端顯示）
-const SALE_ACTIVE = true; // 將此改為 false 可暫時關閉顯示
+const SALE_ACTIVE = false; // 將此改為 false 可暫時關閉顯示
 const DISCOUNT_RATE = 0.9; // 9 折
 
 // 🛒 儲存購物車至 localStorage
