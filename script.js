@@ -814,13 +814,49 @@ document.addEventListener("DOMContentLoaded", () => {
               ${o.items.map(i => `<li>${i.name} × ${i.qty} = $${i.price * i.qty}</li>`).join("")}
             </ul>
             <p><strong>總金額：</strong>$${o.items.reduce((s, i) => s + i.price * i.qty, 0)+ (o.soap_box_count * 20)}</p>
+                    <!-- 🟥 新增取消訂單按鈕 -->
+        <button class="revert-order-btn" style="
+          background:#ff4d4f;
+          color:white;
+          border:none;
+          padding:0.55rem 1rem;
+          border-radius:6px;
+          cursor:pointer;
+          font-weight:600;
+        ">取消訂單</button>
           </div>
         `).join("");
+      // === 🟥 綁定取消訂單的事件監聽 ===
+      document.querySelectorAll(".revert-order-btn").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          const card = e.target.closest(".order-result-card");
+          const orderId = card.querySelector("h4").textContent.replace(/\D/g, "");
 
+          if (!confirm(`確定要取消訂單 ${orderId} 並恢復庫存嗎？`)) return;
+
+          try {
+            const r = await fetch(`${API_BASE}/order/revert/${orderId}`, {
+              method: "PUT"
+            });
+
+            if (!r.ok) {
+              alert("❌ 取消失敗");
+              return;
+            }
+
+            alert(`訂單 ${orderId} 已取消並恢復庫存！`);
+            card.remove(); // 從畫面移除
+
+          } catch (error) {
+            alert("❌ 系統錯誤：" + error.message);
+          }
+        });
+      });
     } catch (err) {
       resultBox.innerHTML = "❌ 查詢失敗：" + err.message;
     }
   });
+  
 });
 
 // === 聯繫我們浮窗控制 ===
