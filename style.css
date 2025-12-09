@@ -501,3 +501,23 @@ button:disabled {
 .contact-send-btn:hover {
   background: #ff6d8a;
 }
+
+/* 🛒 購物車紅點 */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #f36e6e; /* 紅色 */
+  color: white;
+  font-size: 0.75rem;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  pointer-events: none;
+}

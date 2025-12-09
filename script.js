@@ -7,7 +7,41 @@ const DISCOUNT_RATE = 0.9; // 9 折
 // 🛒 儲存購物車至 localStorage
 function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartBadge();
 }
+
+// 更新購物車紅點
+function updateCartBadge() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  const badge = document.getElementById("cartBadge");
+  if (!badge) return;
+
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = "flex";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+// 初始化購物車紅點標籤
+function initCartBadge() {
+  const cartBtn = document.querySelector(".cart-btn");
+  if (!cartBtn) return;
+
+  // 避免重複插入
+  if (!cartBtn.querySelector(".cart-badge")) {
+    const badge = document.createElement("span");
+    badge.id = "cartBadge";
+    badge.className = "cart-badge";
+    badge.style.display = "none"; // 初始隱藏
+    cartBtn.style.position = "relative"; // 必須，讓 badge 可以定位
+    cartBtn.appendChild(badge);
+  }
+}
+
 
 // 🛒 加入或更新購物車
 function updateCart(id, qty) {
@@ -949,4 +983,5 @@ document.addEventListener("DOMContentLoaded", () => {
 loadCategories();
 loadProducts();
 loadCart();
-
+initCartBadge();
+updateCartBadge();
