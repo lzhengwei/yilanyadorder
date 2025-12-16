@@ -664,7 +664,7 @@ async function checkout() {
       buyer_name,
       buyer_phone,
       buyer_line,
-      soap_box_count,
+      soap_box_count: orderData.soap_box_count,
       delivery_method,
       pickup_time: orderData.pickup_time,
       receiver_name: orderData.receiver_name,
