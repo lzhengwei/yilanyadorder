@@ -695,47 +695,44 @@ function showOrderSummary(order) {
   const modal = document.createElement("div");
   modal.id = "order-summary";
   modal.innerHTML = `
-    <div class="summary-overlay"></div>
+  <div class="summary-overlay">
     <div class="summary-box">
       <h2>✅ 訂單建立成功！</h2>
-      <p><strong>訂單編號：</strong>${order.order_id}</p>
-      <hr>
-      <h3>購買者資料</h3>
-      <p>👤 姓名：${order.buyer_name}</p>
-      <p>📞 電話：${order.buyer_phone}</p>
-      <p>💬 Line ID：${order.buyer_line}</p>
-      ${renderDeliveryInfo(order)}
-      <hr>
-      <h3>商品明細</h3>
-      ${order.soap_box_count > 0 ? `
-        <div class="summary-item">
-          <span>佛光普皂禮盒 × ${order.soap_box_count}</span>
-          <span>$${order.soap_box_count * 20}</span>
+
+      <div class="summary-content">
+        <p><strong>訂單編號：</strong>${order.order_id}</p>
+        <hr>
+        <h3>購買者資料</h3>
+        <p>👤 姓名：${order.buyer_name}</p>
+        <p>📞 電話：${order.buyer_phone}</p>
+        <p>💬 Line ID：${order.buyer_line}</p>
+        ${renderDeliveryInfo(order)}
+        <hr>
+        <h3>商品明細</h3>
+
+        <div class="summary-items">
+          ${order.items.map(i => {
+            const p = products.find(p => p.id === i.id);
+            return `
+              <div class="summary-item">
+                <span>${p?.name || "未知商品"} × ${i.qty}</span>
+                <span>$${(p?.price || 0) * i.qty}</span>
+              </div>
+            `;
+          }).join("")}
         </div>
-      ` : ""}
-      <div class="summary-items">
-        ${order.items.map(i => {
-          const p = products.find(p => p.id === i.id);
-          const subtotal = p ? p.price * i.qty : 0;
-          return `
-            <div class="summary-item">
-              <span>${p?.name || "未知商品"} × ${i.qty}</span>
-              <span>$${subtotal}</span>
-            </div>
-          `;
-        }).join("")}
+
+        <hr>
+        <p><strong>總金額：</strong>...</p>
       </div>
-      <hr>
-      <p><strong>總金額：</strong>$${order.items.reduce((sum, i) => {
-        const p = products.find(p => p.id === i.id);
-        return sum + (p ? p.price * i.qty : 0);
-      }, 0) + (order.soap_box_count * 20)}</p>
+
       <div class="summary-actions">
         <button id="save-order">💾 儲存結果</button>
         <button id="close-summary">✖ 關閉</button>
       </div>
     </div>
-  `;
+  </div>
+`;
   document.body.appendChild(modal);
 
   // === 匯出 PDF ===
