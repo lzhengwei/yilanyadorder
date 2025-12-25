@@ -1,7 +1,7 @@
 const API_BASE = "https://yilanyadorder-backend.onrender.com/api";
 
 // === 全站促銷設定（僅前端顯示）
-const SALE_ACTIVE = false; // 將此改為 false 可暫時關閉顯示
+const SALE_ACTIVE = true; // 將此改為 false 可暫時關閉顯示
 const DISCOUNT_RATE = 0.9; // 9 折
 
 // 🛒 儲存購物車至 localStorage
@@ -723,7 +723,10 @@ function showOrderSummary(order) {
         </div>
 
         <hr>
-        <p><strong>總金額：</strong>...</p>
+        <p><strong>總金額：</strong>$${order.items.reduce((s, i) => {
+        const p = products.find(p => p.id === i.id);
+        return s + (p ? p.price * i.qty : 0);
+        }, 0)}</p>
       </div>
 
       <div class="summary-actions">
