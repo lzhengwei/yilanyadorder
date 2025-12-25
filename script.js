@@ -1,7 +1,7 @@
 const API_BASE = "https://yilanyadorder-backend.onrender.com/api";
 
 // === 全站促銷設定（僅前端顯示）
-const SALE_ACTIVE = true; // 將此改為 false 可暫時關閉顯示
+const SALE_ACTIVE = false; // 將此改為 false 可暫時關閉顯示
 const DISCOUNT_RATE = 0.9; // 9 折
 
 // 🛒 儲存購物車至 localStorage
@@ -47,17 +47,23 @@ function initCartBadge() {
 function updateCart(id, qty) {
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
   const found = cart.find(i => i.id === id);
+
   if (found) {
-    if (qty <= 0) {
+    // ✅ 已存在商品 → 累加 qty
+    found.qty += qty;
+
+    // 若累加後 <= 0，移除該商品
+    if (found.qty <= 0) {
       cart = cart.filter(i => i.id !== id);
-    } else {
-      found.qty = qty;
     }
   } else if (qty > 0) {
+    // ✅ 不存在才新增
     cart.push({ id, qty });
   }
+
   saveCart(cart);
 }
+
 
 // ✅ 定義分組與分類（兩層）
 // 需求：顯示兩個主要群組：1. 娃娃 2. 佛光普皂，並保留子分類
