@@ -186,7 +186,6 @@
   <div id="pickup-options" class="form-group">
     <label for="pickup-time">選擇取貨時間</label>
     <select id="pickup-time">
-      <option value="1230">12/30 聯合月例會 19:00~21:00</option>
       <option value="0118">1/18 水懺法會 16:00~18:00</option>
       <option value="0207">2/7 別院大掃除 09:00~12:00</option>
     </select>
@@ -233,6 +232,11 @@
       const addSoapboxRadioGroup = document.querySelector('input[name="add-soapbox"]')?.closest('.form-group');
       const soapboxQtyGroup = document.getElementById("soapbox-qty-group");
 
+      // 預設隱藏加購選項與數量欄位
+      // if (addSoapboxRadioGroup) addSoapboxRadioGroup.style.display = "none";
+      // if (soapboxQtyGroup) soapboxQtyGroup.style.display = "none";
+
+      // 根據購物車內容決定是否顯示加購選項
       // 若購物車沒有id 16~28 → 全部隱藏
       if (!isEligible) {
         if (addSoapboxRadioGroup) addSoapboxRadioGroup.style.display = "none";
