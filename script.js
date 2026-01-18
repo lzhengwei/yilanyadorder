@@ -73,8 +73,8 @@ const groups = [
     name: '新春娃娃',
     desc: '',
     categories: [
-      { id: 1, name: "駿馬系列", startId: 1, endId: 8 },
-      { id: 2, name: "卡皮巴拉系列", startId: 9, endId: 15 },
+      { id: 1, name: "卡皮巴拉系列", startId: 9, endId: 15 },
+      { id: 2, name: "駿馬系列", startId: 1, endId: 8 },
     ]
   },
   {
@@ -87,6 +87,17 @@ const groups = [
       { id: 5, name: "森林木質系", startId: 22, endId: 24, desc: '芳香: 檜木、檀香、雪松' },
       { id: 6, name: "放鬆安神系", startId: 25, endId: 27, desc: '芳香: 佛手柑、甜橙' },
       { id: 7, name: "優惠組合", startId: 28, endId: 28, desc: '' },
+    ]
+  },
+  {
+    id: 'pendant',
+    name: '新春吊飾',
+    desc: '',
+    categories: [
+      { id: 8, name: "福馬系列", startId: 29, endId: 32 },
+      { id: 9, name: "招財貓系列", startId: 33, endId: 36 },
+      { id: 10, name: "鞭炮系列", startId: 37, endId: 39 },
+      { id: 11, name: "平安符", startId: 40, endId: 41 },
     ]
   }
 ];
@@ -128,6 +139,19 @@ const localProducts = [
   { id: 28, name: "優惠組合",       price: 300,   stock: 10, image_url: "asset/soap/優惠組合.png"
     , desc: "元寶、馬到成功、如意、幸福優惠組合"
    },
+  { id: 29, name: "福馬系列-發財", price: 50, stock: 20, image_url: "asset/pendant/福馬系列-發財.png"},
+  { id: 30, name: "福馬系列-馬上有錢", price: 50, stock: 20, image_url: "asset/pendant/福馬系列-馬上有錢.png"},
+  { id: 31, name: "福馬系列-馬上平安", price: 50, stock: 20, image_url: "asset/pendant/福馬系列-馬上平安.png"},
+  { id: 32, name: "福馬系列-開運(福)", price: 50, stock: 20, image_url: "asset/pendant/福馬系列-開運(福).png"},
+  { id: 33, name: "招財貓系列-開運", price: 50, stock: 10, image_url: "asset/pendant/招財貓系列-開運.png"},
+  { id: 34, name: "招財貓系列-結緣", price: 50, stock: 10, image_url: "asset/pendant/招財貓系列-結緣.png"},
+  { id: 35, name: "招財貓系列-健康", price: 50, stock: 10, image_url: "asset/pendant/招財貓系列-健康.png"},
+  { id: 36, name: "招財貓系列-平安", price: 50, stock: 11, image_url: "asset/pendant/招財貓系列-平安.png"},
+  { id: 37, name: "鞭炮系列-財源滾滾", price: 50, stock: 25, image_url: "asset/pendant/鞭炮系列-財源滾滾.png"},
+  { id: 38, name: "鞭炮系列-大吉", price: 50, stock: 23, image_url: "asset/pendant/鞭炮系列-大吉.png"},
+  { id: 39, name: "鞭炮系列-平安", price: 50, stock: 28, image_url: "asset/pendant/鞭炮系列-平安.png"},
+  { id: 40, name: "諸事皆宜", price: 50, stock: 26, image_url: "asset/pendant/諸事皆宜.png"},
+  { id: 41, name: "平安喜樂", price: 50, stock: 25, image_url: "asset/pendant/平安喜樂.png"}
 ];
 
 
