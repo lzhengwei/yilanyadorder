@@ -68,6 +68,17 @@ function updateCart(id, qty) {
 // ✅ 定義分組與分類（兩層）
 // 需求：顯示兩個主要群組：1. 娃娃 2. 佛光普皂，並保留子分類
 const groups = [
+    {
+    id: 'pendant',
+    name: '新春吊飾',
+    desc: '',
+    categories: [
+      { id: 8, name: "福馬系列", startId: 29, endId: 32 },
+      { id: 9, name: "招財貓系列", startId: 33, endId: 36 },
+      { id: 10, name: "鞭炮系列", startId: 37, endId: 39 },
+      { id: 11, name: "平安符", startId: 40, endId: 41 },
+    ]
+  },
   {
     id: 'doll',
     name: '新春娃娃',
@@ -85,19 +96,8 @@ const groups = [
       { id: 3, name: "活力清新系", startId: 16, endId: 18, desc: '芳香: 葡萄柚、馬鞭草' },
       { id: 4, name: "療癒花香系", startId: 19, endId: 21, desc: '芳香: 薰衣草、茶樹' },
       { id: 5, name: "森林木質系", startId: 22, endId: 24, desc: '芳香: 檜木、檀香、雪松' },
-      { id: 6, name: "放鬆安神系", startId: 25, endId: 27, desc: '芳香: 佛手柑、甜橙' },
+      // { id: 6, name: "放鬆安神系", startId: 25, endId: 27, desc: '芳香: 佛手柑、甜橙' },
       { id: 7, name: "優惠組合", startId: 28, endId: 28, desc: '' },
-    ]
-  },
-  {
-    id: 'pendant',
-    name: '新春吊飾',
-    desc: '',
-    categories: [
-      { id: 8, name: "福馬系列", startId: 29, endId: 32 },
-      { id: 9, name: "招財貓系列", startId: 33, endId: 36 },
-      { id: 10, name: "鞭炮系列", startId: 37, endId: 39 },
-      { id: 11, name: "平安符", startId: 40, endId: 41 },
     ]
   }
 ];
@@ -107,17 +107,15 @@ const categories = groups.flatMap(g => g.categories);
 
 // ✅ 模擬 15 組商品資料（前端預覽模式）
 const localProducts = [
-  { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [
-    "asset/doll/青梅竹馬.png",
-  ], desc: "尺寸:18cm" },
-  { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png", desc: "尺寸:18cm" },
-  { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png", desc: "尺寸:25cm" },
-  { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
+  // { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [ "asset/doll/青梅竹馬.png"], desc: "尺寸:18cm" },
+  // { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png", desc: "尺寸:18cm" },
+  // { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png", desc: "尺寸:25cm" },
+  // { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
   { id: 5, name: "竹子小紅馬",      price: 120,   stock: 10, image_url: "asset/doll/竹子小紅馬.png", desc: "尺寸:12cm" },
   { id: 6, name: "白色獨角獸",      price: 200,   stock: 10, image_url: "asset/doll/白色獨角獸.png", desc: "尺寸:14cm" },
   { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png", desc: "尺寸:22cm" },
   { id: 8, name: "馬上有錢掛件",    price: 120,   stock: 10, image_url: "asset/doll/馬上有錢掛件.png", desc: "吊飾" },
-  { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png", desc: "尺寸:18cm" },
+  // { id: 9, name: "長壽水豚",        price: 168,   stock: 10, image_url: "asset/doll/長壽水豚.png", desc: "尺寸:18cm" },
   { id: 10, name: "大吉大利水豚",   price: 220,   stock: 10, image_url: ["asset/doll/大吉大利水豚.png", "asset/doll/大吉大利水豚_2.png"], desc: "尺寸:25cm" },
   { id: 11, name: "發心水豚",       price: 220,   stock: 10, image_url: "asset/doll/發心水豚.png", desc: "尺寸:25cm" },
   { id: 12, name: "夏威夷水豚",     price: 350,   stock: 10, image_url: "asset/doll/夏威夷水豚.png", desc: "尺寸:35cm" },
@@ -133,9 +131,9 @@ const localProducts = [
   { id: 22, name: "幸福",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_幸福.png"},
   { id: 23, name: "快樂",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_快樂.png"},
   { id: 24, name: "平安",           price: 60,    stock: 10, image_url: "asset/soap/森林木質系_平安竹.png"},
-  { id: 25, name: "元寶",           price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png"},
-  { id: 26, name: "福氣馬",         price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png"},
-  { id: 27, name: "馬到成功",       price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png"},
+  // { id: 25, name: "元寶",           price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_元寶.png"},
+  // { id: 26, name: "福氣馬",         price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_福氣馬.png"},
+  // { id: 27, name: "馬到成功",       price: 100,   stock: 10, image_url: "asset/soap/放鬆安神系_馬到成功.png"},
   { id: 28, name: "優惠組合",       price: 300,   stock: 10, image_url: "asset/soap/優惠組合.png"
     , desc: "元寶、馬到成功、如意、幸福優惠組合"
    },
