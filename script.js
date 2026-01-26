@@ -77,6 +77,7 @@ const groups = [
       { id: 9, name: "招財貓系列", startId: 33, endId: 36 },
       { id: 10, name: "鞭炮系列", startId: 37, endId: 39 },
       { id: 11, name: "平安符", startId: 40, endId: 41 },
+      { id: 12, name: "手機吊飾", startId: 42, endId: 45 },
     ]
   },
   {
@@ -149,7 +150,11 @@ const localProducts = [
   { id: 38, name: "鞭炮系列-大吉", price: 50, stock: 23, image_url: "asset/pendant/鞭炮系列-大吉.png"},
   { id: 39, name: "鞭炮系列-平安", price: 50, stock: 28, image_url: "asset/pendant/鞭炮系列-平安.png"},
   { id: 40, name: "諸事皆宜", price: 50, stock: 26, image_url: "asset/pendant/諸事皆宜.png"},
-  { id: 41, name: "平安喜樂", price: 50, stock: 25, image_url: "asset/pendant/平安喜樂.png"}
+  { id: 41, name: "平安喜樂", price: 50, stock: 25, image_url: "asset/pendant/平安喜樂.png"},
+  { id: 42, name: "藍繩平安藍色馬", price: 150, stock: 23, image_url: "asset/pendant_2/藍繩平安藍色馬.png"},
+  { id: 43, name: "綠繩平安綠色馬", price: 150, stock: 28, image_url: "asset/pendant_2/綠繩平安綠色馬.png"},
+  { id: 44, name: "綠繩暴富棕色馬", price: 150, stock: 26, image_url: "asset/pendant_2/綠繩暴富棕色馬.png"},
+  { id: 45, name: "粉繩福運紫色馬", price: 150, stock: 25, image_url: "asset/pendant_2/粉繩福運紫色馬.png"}
 ];
 
 
