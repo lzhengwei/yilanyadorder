@@ -111,7 +111,7 @@ const localProducts = [
   // { id: 1, name: "青梅竹馬", price: 150, stock: 20, image_url: [ "asset/doll/青梅竹馬.png"], desc: "尺寸:18cm" },
   // { id: 2, name: "陶瓷馬",          price: 150,   stock: 12, image_url: "asset/doll/陶瓷馬.png", desc: "尺寸:18cm" },
   // { id: 3, name: "流蘇白馬",        price: 280,   stock: 10, image_url: "asset/doll/流蘇白馬.png", desc: "尺寸:25cm" },
-  // { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
+  { id: 4, name: "金貂福馬",        price: 250,   stock: 10, image_url: "asset/doll/金貂福馬.png", desc: "尺寸:20cm" },
   { id: 5, name: "竹子小紅馬",      price: 120,   stock: 10, image_url: "asset/doll/竹子小紅馬.png", desc: "尺寸:12cm" },
   { id: 6, name: "白色獨角獸",      price: 200,   stock: 10, image_url: "asset/doll/白色獨角獸.png", desc: "尺寸:14cm" },
   { id: 7, name: "粉色獨角獸",      price: 250,   stock: 10, image_url: "asset/doll/粉色獨角獸.png", desc: "尺寸:22cm" },
