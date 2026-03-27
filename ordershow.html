@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>訂單後台</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  h1,h2 { margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  table, th, td { border: 1px solid #aaa; }
+  th, td { padding: 6px; font-size: 13px; text-align: center; }
+  th { background: #f3f3f3; }
+</style>
+</head>
+<body>
+
+<h1>📦 訂單管理後台</h1>
+
+<h2>📦 商品庫存一覽</h2>
+<div id="stock-table">Loading...</div>
+
+<h2>🧾 訂單列表</h2>
+<div id="orders-table">Loading...</div>
+
+<h2>📨 客戶留言</h2>
+<div id="message-table">Loading...</div>
+
+<script>
+const API_BASE = "https://yilanyadorder-backend.onrender.com";
+
+let products = [];
+
+/* =====================
+   載入商品（唯一來源）
+===================== */
+async function loadProducts() {
+  const res = await fetch(`${API_BASE}/api/products`);
+  if (!res.ok) throw new Error("商品讀取失敗");
+  products = await res.json();
+  renderStockTable();
+}
+
+/* =====================
+   載入訂單
+===================== */
+async function loadOrders() {
+  const res = await fetch(`${API_BASE}/api/order/search?q=%25`);
+  if (!res.ok) {
+    document.getElementById("orders-table").innerText = "無法載入訂單";
+    return;
+  }
+
+  const rows = await res.json();
+  const map = {};
+
+  rows.forEach(r => {
+    if (!map[r.order_id]) {
+      map[r.order_id] = {
+        created_at: r.created_at,
+        order_id: r.order_id,
+        buyer_name: r.buyer_name,
+        buyer_phone: r.buyer_phone,
+        buyer_line: r.buyer_line,
+        soap_box_count: r.soap_box_count,
+        delivery_method: r.delivery_method,
+        pickup_time: r.pickup_time,
+        items: {},
+        total: 0
+      };
+    }
+
+    map[r.order_id].items[r.product_name] =
+      (map[r.order_id].items[r.product_name] || 0) + r.quantity;
+
+    map[r.order_id].total += r.quantity * r.price;
+  });
+
+  renderOrders(Object.values(map));
+}
+
+/* =====================
+   Render 商品庫存
+===================== */
+function renderStockTable() {
+  let html = "<table><tr>";
+  html += "<th>ID</th><th>商品</th><th>單價</th><th>庫存</th></tr>";
+
+  products.forEach(p => {
+    html += `<tr>
+      <td>${p.id}</td>
+      <td>${p.name}</td>
+      <td>$${p.price}</td>
+      <td>${p.stock}</td>
+    </tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("stock-table").innerHTML = html;
+}
+
+/* =====================
+   Render 訂單
+===================== */
+function renderOrders(orders) {
+  let html = "<table><tr>";
+  html += `
+    <th>訂單時間</th>
+    <th>訂單編號</th>
+    <th>姓名</th>
+    <th>電話</th>
+    <th>LINE ID</th>
+    <th>肥皂盒數量</th>
+    <th>取貨方式</th>
+    <th>取貨時間</th>
+  `;
+
+  products.forEach(p => {
+    html += `<th>${p.name}<br>庫存:${p.stock}</th>`;
+  });
+
+  html += "<th>訂單合計</th></tr>";
+
+  orders.forEach(o => {
+    html += "<tr>";
+    html += `<td>${new Date(o.created_at).toLocaleString("zh-TW")}</td>`;
+    html += `<td>${o.order_id}</td>`;
+    html += `<td>${o.buyer_name}</td>`;
+    html += `<td>${o.buyer_phone}</td>`;
+    html += `<td>${o.buyer_line}</td>`;
+    html += `<td>${o.soap_box_count || 0}</td>`;
+    html += `<td>${o.delivery_method}</td>`;
+    html += `<td>${o.pickup_time ? new Date(o.pickup_time).toLocaleString("zh-TW") : "-"}</td>`;
+
+    products.forEach(p => {
+      html += `<td>${o.items[p.name] || 0}</td>`;
+    });
+
+    html += `<td><strong>$${o.total}</strong></td>`;
+    html += "</tr>";
+  });
+
+  html += "</table>";
+  document.getElementById("orders-table").innerHTML = html;
+}
+
+/* =====================
+   留言
+===================== */
+async function loadMessages() {
+  const res = await fetch(`${API_BASE}/api/message/all`);
+  if (!res.ok) {
+    document.getElementById("message-table").innerText = "無法載入留言";
+    return;
+  }
+
+  const rows = await res.json();
+  let html = "<table><tr>";
+  html += "<th>時間</th><th>姓名</th><th>電話</th><th>LINE</th><th>內容</th></tr>";
+
+  rows.forEach(m => {
+    html += `<tr>
+      <td>${new Date(m.created_at).toLocaleString("zh-TW")}</td>
+      <td>${m.name}</td>
+      <td>${m.phone}</td>
+      <td>${m.lineid}</td>
+      <td style="text-align:left">${m.content}</td>
+    </tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("message-table").innerHTML = html;
+}
+
+/* =====================
+   Init（保證順序）
+===================== */
+async function init() {
+  try {
+    await loadProducts();   // 一定先
+    await loadOrders();
+    await loadMessages();
+  } catch (e) {
+    console.error(e);
+    alert("後台初始化失敗，請看 console");
+  }
+}
+init();
+</script>
+
+</body>
+</html>
